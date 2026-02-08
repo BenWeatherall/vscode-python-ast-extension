@@ -41,23 +41,37 @@ Invoke the `/architect` subagent. Ask it to:
 
 **STOP here. Wait for explicit user approval before Phase 4.**
 
-### Phase 4: Tasks
+### Phase 4: Task List Generation
 
 Invoke the `/task-decomposer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and the plan from `_bugs/{bug_name}/plans/master/`
 2. Execute the workflow in `@_archive/subagent-pipeline-commands/4-bug-fix-tasks.md`
 3. Create task documents in `_bugs/{bug_name}/tasks/`
-4. Update `@.cursor/scratchpad.md` with task count and execution order
+4. Update `@.cursor/scratchpad.md` with task count, ordered list of task file names, and execution order
 
-### Phase 5: Implement
+### Phase 5: Per-Task Planning
 
-Invoke the `/implementer` subagent. Ask it to:
+For **each** task in execution order (from the scratchpad's task list):
+
+Invoke the `/architect` subagent with a **fresh agent context**. Pass the bug name and single task file path. Ask it to:
+
+1. Execute the workflow in `@_archive/subagent-pipeline-commands/5-plan-task-bug.md`
+2. Create plan at `_bugs/{bug_name}/plans/tasks/{task_file}.md`
+3. Update `@.cursor/scratchpad.md` with plan location
+
+### Phase 6: Per-Task Implementation
+
+For **each** task in execution order (from the scratchpad's task list):
+
+Invoke the `/implementer` subagent with a **fresh agent context**. Pass the bug name and single task file path. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` for context
-2. Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-fix.md`
-3. Use the bug name provided at the start
-4. Follow all phases: Context Gathering, Planning (with user approval), Implementation, Completion
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/implement-task-fix.md`
+3. Implement **only** that task; do not proceed to the next task until all tests pass
+4. Update `@.cursor/scratchpad.md` with task completion status
+
+**Invoke architect and implementer once per task in execution order. Each invocation uses a fresh agent context.**
 
 ## Notes
 

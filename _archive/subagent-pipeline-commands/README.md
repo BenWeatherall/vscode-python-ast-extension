@@ -23,12 +23,16 @@ The project adopted Cursor 2.0+ Custom Subagents with orchestrator commands:
 | `2-plan-feature` | `feature-pipeline` Phase 2 → `/architect` |
 | `3-task_list` | `feature-pipeline` Phase 3 → `/task-decomposer` |
 | `4-feature-tasks` | `feature-pipeline` Phase 3 → `/task-decomposer` |
-| `implement-feature` | `feature-pipeline` Phase 4 → `/implementer` |
+| `5-plan-task-feature` | `feature-pipeline` Phase 4 → `/architect` (per task) |
+| `implement-task-feature` | `feature-pipeline` Phase 5 → `/implementer` (per task) |
+| `implement-feature` | Legacy; use `implement-task-feature` per task |
 | `1-investigate-bug` | `bug-pipeline` Phase 1 → `/debug-specialist` |
 | `2-research-bug` | `bug-pipeline` Phase 2 → `/researcher` |
 | `3-plan-bug-fix` | `bug-pipeline` Phase 3 → `/architect` |
 | `4-bug-fix-tasks` | `bug-pipeline` Phase 4 → `/task-decomposer` |
-| `implement-fix` | `bug-pipeline` Phase 5 → `/implementer` |
+| `5-plan-task-bug` | `bug-pipeline` Phase 5 → `/architect` (per task) |
+| `implement-task-fix` | `bug-pipeline` Phase 6 → `/implementer` (per task) |
+| `implement-fix` | Legacy; use `implement-task-fix` per task |
 
 ## Usage
 

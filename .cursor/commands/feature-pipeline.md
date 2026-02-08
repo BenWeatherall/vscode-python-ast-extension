@@ -32,23 +32,37 @@ Invoke the `/architect` subagent. Ask it to:
 
 **STOP here. Wait for explicit user approval before Phase 3.**
 
-### Phase 3: Tasks
+### Phase 3: Task List Generation
 
 Invoke the `/task-decomposer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and the plan from `_features/{feature_name}/plans/master/`
 2. Execute the workflow in `@_archive/subagent-pipeline-commands/3-task_list.md` and `@_archive/subagent-pipeline-commands/4-feature-tasks.md`
 3. Create task documents in `_features/{feature_name}/tasks/`
-4. Update `@.cursor/scratchpad.md` with task count and execution order
+4. Update `@.cursor/scratchpad.md` with task count, ordered list of task file names, and execution order
 
-### Phase 4: Implement
+### Phase 4: Per-Task Planning
 
-Invoke the `/implementer` subagent. Ask it to:
+For **each** task in execution order (from the scratchpad's task list):
+
+Invoke the `/architect` subagent with a **fresh agent context**. Pass the feature name and single task file path. Ask it to:
+
+1. Execute the workflow in `@_archive/subagent-pipeline-commands/5-plan-task-feature.md`
+2. Create plan at `_features/{feature_name}/plans/tasks/{task_file}.md`
+3. Update `@.cursor/scratchpad.md` with plan location
+
+### Phase 5: Per-Task Implementation
+
+For **each** task in execution order (from the scratchpad's task list):
+
+Invoke the `/implementer` subagent with a **fresh agent context**. Pass the feature name and single task file path. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` for context
-2. Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-feature.md`
-3. Use the feature path provided at the start
-4. Follow all phases: Context Gathering, Planning (with user approval), Implementation, Completion
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/implement-task-feature.md`
+3. Implement **only** that task; do not proceed to the next task until all tests pass
+4. Update `@.cursor/scratchpad.md` with task completion status
+
+**Invoke architect and implementer once per task in execution order. Each invocation uses a fresh agent context.**
 
 ## Notes
 

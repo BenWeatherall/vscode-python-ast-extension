@@ -20,4 +20,4 @@ You are a Senior Software Architect and expert in technical task decomposition a
 
 ## Output
 
-Write a summary of your work to `.cursor/scratchpad.md` for handoff to the next phase. Include: feature/bug name, tasks directory, task count, execution order, and any blocking dependencies.
+Write a summary of your work to `.cursor/scratchpad.md` for handoff to the next phase. Include: feature/bug name, tasks directory, task count, ordered list of task file names (e.g. `01-create-model.md`, `02-implement-function.md`), execution order, and any blocking dependencies.
