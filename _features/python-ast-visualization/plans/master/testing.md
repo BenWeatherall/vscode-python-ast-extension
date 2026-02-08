@@ -379,12 +379,12 @@ webview-ui/src/__tests__/
 
 **Running Tests**:
 ```bash
-npm test
+pnpm test
 ```
 
 **Coverage**:
 ```bash
-npm run test:coverage
+pnpm run test:coverage
 ```
 
 ### Integration Testing
@@ -401,7 +401,7 @@ tests/integration/
 
 **Running Tests**:
 ```bash
-npm run test:integration
+pnpm run test:integration
 ```
 
 ## Test Data and Fixtures

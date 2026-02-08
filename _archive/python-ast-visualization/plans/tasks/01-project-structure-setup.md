@@ -34,7 +34,7 @@ No unit tests for config files. Manual validation only:
 - `install.sh` executes successfully
 - `.venv` created
 - `uv pip install -e .` succeeds
-- `pnpm install` succeeds
+- `npm install` succeeds
 - Extension debugs via launch configuration
 
 ## Documentation Updates

@@ -1,0 +1,47 @@
+{
+  "name": "python-ast-visualization",
+  "displayName": "Python AST Visualization",
+  "version": "0.1.0",
+  "description": "Visualize Python Abstract Syntax Trees as interactive node-based graphs",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Visualization", "Other"],
+  "activationEvents": ["onCommand:python-ast.visualize"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "python-ast.visualize",
+        "title": "Visualize AST"
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -p . -w",
+    "build": "pnpm run compile",
+    "bundle-webview": "echo 'Webview bundle - configure in Task 11'",
+    "test": "jest",
+    "test:python": "python -m pytest tests/ -v"
+  },
+  "dependencies": {
+    "@types/vscode": "^1.80.0",
+    "rete": "^2.0.0",
+    "rete-area-plugin": "^2.0.0",
+    "rete-connection-plugin": "^2.0.0",
+    "rete-react-plugin": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0"
+  }
+}

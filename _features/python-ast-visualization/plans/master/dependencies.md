@@ -231,7 +231,7 @@ This document lists all external dependencies, internal dependencies, system req
 ### Node.js Requirements
 
 - **Node.js Version**: 18.0.0 or higher
-- **npm Version**: 9.0.0 or higher (or compatible package manager)
+- **pnpm Version**: 8.0.0 or higher (or compatible package manager)
 - **VS Code Version**: 1.80.0 or higher (for extension API compatibility)
 
 ### Operating System
@@ -264,17 +264,17 @@ uv pip install -e .
 
 **Dependencies Installation**:
 ```bash
-npm install
+pnpm install
 ```
 
 **Build**:
 ```bash
-npm run build
+pnpm run build
 ```
 
 **Development**:
 ```bash
-npm run watch  # Watch mode for development
+pnpm run watch  # Watch mode for development
 ```
 
 ### VS Code Extension Development
@@ -343,7 +343,7 @@ strict = true
   "scripts": {
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "build": "npm run compile && npm run bundle-webview",
+    "build": "pnpm run compile && pnpm run bundle-webview",
     "bundle-webview": "webpack --mode production",
     "test": "jest"
   },
@@ -462,10 +462,10 @@ python -m pytest tests/
 
 ### Node.js Dependencies
 
-- **Management Tool**: `npm` (or compatible)
-- **Lock File**: `package-lock.json`
-- **Installation**: `npm install`
-- **Updates**: `npm update <package>`
+- **Management Tool**: `pnpm` (or compatible)
+- **Lock File**: `pnpm-lock.yaml`
+- **Installation**: `pnpm install`
+- **Updates**: `pnpm update <package>`
 
 ## Version Constraints
 
@@ -514,14 +514,14 @@ If using JSON-RPC instead of stdio:
 
 ### Dependency Security
 
-- **Audit Dependencies**: Run `npm audit` and `pip-audit` regularly
+- **Audit Dependencies**: Run `pnpm audit` and `pip-audit` regularly
 - **Update Regularly**: Keep dependencies up to date
 - **Pin Critical Versions**: Pin versions for security-critical packages
 
 ### Supply Chain Security
 
-- **Lock Files**: Commit lock files (`package-lock.json`, `uv.lock`)
-- **Verified Sources**: Only use packages from verified sources (PyPI, npm)
+- **Lock Files**: Commit lock files (`pnpm-lock.yaml`, `uv.lock`)
+- **Verified Sources**: Only use packages from verified sources (PyPI, npm registry)
 - **Review Dependencies**: Review dependency licenses and security
 
 ## Performance Considerations
@@ -548,4 +548,4 @@ If using JSON-RPC instead of stdio:
 
 ## Summary
 
-All dependencies are well-maintained, open-source packages with MIT or compatible licenses. The dependency structure follows a clear separation between Python service, Extension host, and Webview UI, with minimal cross-dependencies. The project uses modern tooling (`uv` for Python, standard npm for Node.js) and follows project development practices.
+All dependencies are well-maintained, open-source packages with MIT or compatible licenses. The dependency structure follows a clear separation between Python service, Extension host, and Webview UI, with minimal cross-dependencies. The project uses modern tooling (`uv` for Python, pnpm for Node.js) and follows project development practices.

@@ -15,13 +15,17 @@ Linting: Ruff & MyPy
     - Created a virtual environment in `.venv` with `uv`
     - Activate the virtual environment (`.venv`)
     - Install python project using `uv` and `pyproject.toml`
+    - Install Node.js dependencies using `pnpm install`
     - Run pytests
 
 - **ALWAYS** Ensure the virtual environment is active (`source .venv/bin/activate`)
 - **IF** the virtual environment isn't available; install it via `install.sh`
 
-- **IF** a new package is required; add it to `pyproject.toml` and run `install.sh`
-- **DO NOT** use `pip install ...` for installing new packages
+- **IF** a new Python package is required; add it to `pyproject.toml` and run `install.sh`
+- **DO NOT** use `pip install ...` for installing Python packages
+
+- **IF** a new Node package is required; add it to `package.json` and run `pnpm install`
+- **DO NOT** use `npm install ...` for installing Node packages
 
 # Structure
 

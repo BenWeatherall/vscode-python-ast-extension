@@ -169,12 +169,12 @@ Follow the TDD workflow defined in project rules:
    **For Webview UI:**
    ```bash
    cd webview-ui
-   npm run test:unit
+   pnpm run test:unit
    ```
 
    **For Extension Host:**
    ```bash
-   npm run test
+   pnpm run test
    ```
 
    - If tests pass before implementation, the tests don't validate the changes
@@ -210,14 +210,14 @@ mypy .  # If mypy is configured
 **For Webview UI:**
 ```bash
 cd webview-ui
-npm run lint
-npm run check  # TypeScript type checking
+pnpm run lint
+pnpm run check  # TypeScript type checking
 ```
 
 **For Extension Host:**
 ```bash
-npm run lint
-npm run check  # TypeScript type checking
+pnpm run lint
+pnpm run check  # TypeScript type checking
 ```
 
 ### Step 3.4: Run Tests
@@ -234,12 +234,12 @@ npm run check  # TypeScript type checking
    **For Webview UI:**
    ```bash
    cd webview-ui
-   npm run test
+   pnpm run test
    ```
 
    **For Extension Host:**
    ```bash
-   npm run test
+   pnpm run test
    ```
 
 2. If tests fail:
@@ -345,12 +345,12 @@ mv _features/${FEATURE}/plans/tasks/${TASK_FILE} _archive/${FEATURE}/plans/tasks
    **For Webview UI:**
    ```bash
    cd webview-ui
-   npm run test
+   pnpm run test
    ```
 
    **For Extension Host:**
    ```bash
-   npm run test
+   pnpm run test
    ```
 
 2. Verify no code quality errors:
@@ -366,14 +366,14 @@ mv _features/${FEATURE}/plans/tasks/${TASK_FILE} _archive/${FEATURE}/plans/tasks
    **For Webview UI:**
    ```bash
    cd webview-ui
-   npm run lint
-   npm run check
+   pnpm run lint
+   pnpm run check
    ```
 
    **For Extension Host:**
    ```bash
-   npm run lint
-   npm run check
+   pnpm run lint
+   pnpm run check
    ```
 
 3. Confirm all files are ready for commit

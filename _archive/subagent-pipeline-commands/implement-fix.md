@@ -103,8 +103,8 @@ Save plans to `_bugs/{bug_name}/plans/tasks/` with file names matching task file
 Follow the TDD workflow. Reference `@_archive/subagent-pipeline-commands/implement-feature.md` for detailed commands:
 
 - **Python service**: pytest, ruff, mypy
-- **Webview UI**: npm run test, lint, check
-- **Extension Host**: npm run test, lint, check
+- **Webview UI**: pnpm run test, lint, check
+- **Extension Host**: pnpm run test, lint, check
 
 Emphasize:
 - Regression tests that reproduce the bug before fix

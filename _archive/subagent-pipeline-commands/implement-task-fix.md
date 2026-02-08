@@ -80,7 +80,7 @@ Determine which service(s) or component(s) are affected based on the task and pl
 
 ## Phase 2: Implementation
 
-Follow the TDD workflow. Reference `@_archive/subagent-pipeline-commands/implement-feature.md` for detailed commands (pytest, ruff, mypy, npm run test, etc.).
+Follow the TDD workflow. Reference `@_archive/subagent-pipeline-commands/implement-feature.md` for detailed commands (pytest, ruff, mypy, pnpm run test, etc.).
 
 Emphasize:
 - Regression tests that reproduce the bug before fix
