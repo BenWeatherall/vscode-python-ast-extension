@@ -9,7 +9,7 @@ Implement TypeScript PythonClient. Spawns Python service via child_process, comm
 | File | Action |
 |------|--------|
 | `src/pythonClient.ts` | Create – PythonClient class |
-| `tests/src/pythonClient.test.ts` | Create – client tests |
+| `src/__tests__/pythonClient.test.ts` | Create – client tests |
 
 ## Test Strategy (Write First)
 

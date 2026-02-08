@@ -8,17 +8,17 @@ Initialize Rete.js editor in webview. ReteASTEditor: initialize(), loadGraph(), 
 
 | File | Action |
 |------|--------|
-| `package.json` | Modify – add rete, rete-area-plugin, rete-connection-plugin, rete-react-render-plugin |
+| `package.json` | Modify – add rete, rete-area-plugin, rete-connection-plugin, rete-react-plugin |
 | `webview-ui/src/editor.ts` | Create – ReteASTEditor |
 | `webview-ui/src/__tests__/editor.test.ts` | Create – editor tests |
 
 ## Test Strategy (Write First)
 
 1. `test_editor_initialization` – Editor created, plugins configured
-2. `test_loading_graph_from_json` – fromJSON loads graph
+2. `test_loading_graph_from_json` – loadGraph loads graph
 3. `test_clearing_graph` – clearGraph empties editor
-4. `test_getting_graph_data` – toJSON returns graph
-5. `test_node_click_event_handling` – Handler called
+4. `test_getting_graph_data` – getGraph returns graph
+5. `test_node_click_event_handling` – Handler registered
 6. `test_plugin_configuration` – Plugins present
 7. `test_error_handling` – Invalid graph/container
 
@@ -27,9 +27,9 @@ Initialize Rete.js editor in webview. ReteASTEditor: initialize(), loadGraph(), 
 1. Add Rete.js deps to package.json
 2. Create ReteASTEditor class
 3. initialize(container) – NodeEditor, plugins, mount
-4. loadGraph(graph) – fromJSON
+4. loadGraph(graph) – Convert and add nodes/connections
 5. clearGraph(), getGraph()
-6. onNodeClick(handler) – Register and wire events
+6. onNodeClick(handler) – Register handlers
 7. Add JSDoc
 
 ## Validation Steps

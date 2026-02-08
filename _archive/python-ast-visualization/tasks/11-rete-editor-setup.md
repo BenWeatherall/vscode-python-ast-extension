@@ -53,44 +53,9 @@ This task initializes the Rete.js editor with plugins in the webview. The editor
 # Testing Needed
 
 1. Write test: `webview-ui/src/__tests__/editor.test.ts::test_editor_initialization`
-   - Create container element
-   - Initialize editor
-   - Verify Rete editor created
-   - Verify plugins configured
-   - Verify editor mounted to container
-
 2. Write test: `webview-ui/src/__tests__/editor.test.ts::test_loading_graph_from_json`
-   - Create test graph
-   - Load graph into editor
-   - Verify graph loaded successfully
-   - Verify nodes rendered
-   - Verify connections rendered
-
 3. Write test: `webview-ui/src/__tests__/editor.test.ts::test_clearing_graph`
-   - Load graph, then clear
-   - Verify graph cleared
-   - Verify editor empty
-   - Verify can load new graph after clear
-
 4. Write test: `webview-ui/src/__tests__/editor.test.ts::test_getting_graph_data`
-   - Load graph
-   - Get graph data via getGraph()
-   - Verify data matches input
-   - Verify structure is ReteGraph
-
 5. Write test: `webview-ui/src/__tests__/editor.test.ts::test_node_click_event_handling`
-   - Register click handler
-   - Simulate node click
-   - Verify handler called with correct nodeId and data
-   - Test multiple handlers
-
 6. Write test: `webview-ui/src/__tests__/editor.test.ts::test_plugin_configuration`
-   - Verify AreaPlugin configured
-   - Verify ConnectionPlugin configured
-   - Verify ReactRenderPlugin configured
-   - Test plugin functionality (zoom, pan, connections)
-
 7. Write test: `webview-ui/src/__tests__/editor.test.ts::test_error_handling`
-   - Test loading invalid graph
-   - Test initializing with invalid container
-   - Verify errors handled gracefully

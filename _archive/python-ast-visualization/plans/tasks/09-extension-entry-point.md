@@ -10,7 +10,7 @@ Implement VS Code extension activation. activate() creates PythonClient, registe
 |------|--------|
 | `src/extension.ts` | Create – activate, deactivate, command handler |
 | `package.json` | Modify – contributes.commands, activationEvents |
-| `tests/src/extension.test.ts` | Create – extension tests |
+| `src/__tests__/extension.test.ts` | Create – extension tests |
 
 ## Test Strategy (Write First)
 

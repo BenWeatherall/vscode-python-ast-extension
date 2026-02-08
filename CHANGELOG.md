@@ -3,6 +3,18 @@
 ## [Unreleased]
 
 ### Added
+- Rete.js editor setup (ReteASTEditor: initialize, loadGraph, clearGraph, getGraph, onNodeClick)
+  - Plan: [11-rete-editor-setup](_archive/python-ast-visualization/plans/tasks/11-rete-editor-setup.md)
+  - Task: [11-rete-editor-setup](_archive/python-ast-visualization/tasks/11-rete-editor-setup.md)
+- Webview panel management (createVisualizationPanel, message handlers, navigation)
+  - Plan: [10-webview-panel-management](_archive/python-ast-visualization/plans/tasks/10-webview-panel-management.md)
+  - Task: [10-webview-panel-management](_archive/python-ast-visualization/tasks/10-webview-panel-management.md)
+- Extension entry point (activate/deactivate, python-ast.visualize command)
+  - Plan: [09-extension-entry-point](_archive/python-ast-visualization/plans/tasks/09-extension-entry-point.md)
+  - Task: [09-extension-entry-point](_archive/python-ast-visualization/tasks/09-extension-entry-point.md)
+- Python client (PythonClient: spawns Python service, parseAST via stdio)
+  - Plan: [08-python-client](_archive/python-ast-visualization/plans/tasks/08-python-client.md)
+  - Task: [08-python-client](_archive/python-ast-visualization/tasks/08-python-client.md)
 - Python service entry point (python -m python_service)
   - Plan: [07-python-service-entry-point](_archive/python-ast-visualization/plans/tasks/07-python-service-entry-point.md)
   - Task: [07-python-service-entry-point](_archive/python-ast-visualization/tasks/07-python-service-entry-point.md)

@@ -9,7 +9,7 @@ Implement createVisualizationPanel and message handlers. Webview shows graph, re
 | File | Action |
 |------|--------|
 | `src/extension.ts` | Modify – createVisualizationPanel, message handlers |
-| `tests/src/extension.test.ts` | Modify – panel and message tests |
+| `src/__tests__/extension.test.ts` | Modify – panel and message tests |
 
 ## Test Strategy (Write First)
 
