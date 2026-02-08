@@ -16,7 +16,7 @@ Execute these phases in order. **Wait for user approval between Phase 2 and Phas
 Invoke the `/researcher` subagent. Pass it the feature path and ask it to:
 
 1. Read the feature file from `_features/{feature_name}.md`
-2. Execute the workflow in `@.cursor/commands/1-research-feature.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/1-research-feature.md`
 3. Produce planning docs in `_features/{feature_name}/planning/`
 4. Write a summary to `@.cursor/scratchpad.md` (feature name, output directory, key findings, selected solution)
 
@@ -25,7 +25,7 @@ Invoke the `/researcher` subagent. Pass it the feature path and ask it to:
 Invoke the `/architect` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and the planning docs from `_features/{feature_name}/planning/`
-2. Execute the workflow in `@.cursor/commands/2-plan-feature.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/2-plan-feature.md`
 3. Create implementation plan in `_features/{feature_name}/plans/master/`
 4. Update `@.cursor/scratchpad.md` with plan location and key decisions
 5. Present the plan summary to the user
@@ -37,7 +37,7 @@ Invoke the `/architect` subagent. Ask it to:
 Invoke the `/task-decomposer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and the plan from `_features/{feature_name}/plans/master/`
-2. Execute the workflow in `@.cursor/commands/3-task_list.md` and `@.cursor/commands/4-feature-tasks.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/3-task_list.md` and `@_archive/subagent-pipeline-commands/4-feature-tasks.md`
 3. Create task documents in `_features/{feature_name}/tasks/`
 4. Update `@.cursor/scratchpad.md` with task count and execution order
 
@@ -46,7 +46,7 @@ Invoke the `/task-decomposer` subagent. Ask it to:
 Invoke the `/implementer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` for context
-2. Execute the full workflow in `@.cursor/commands/implement-feature.md`
+2. Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-feature.md`
 3. Use the feature path provided at the start
 4. Follow all phases: Context Gathering, Planning (with user approval), Implementation, Completion
 

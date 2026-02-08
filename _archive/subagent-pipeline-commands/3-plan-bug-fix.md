@@ -30,9 +30,9 @@ If any prerequisites are missing, request completion of the investigation or res
    - Applicable solutions with pros/cons
 
 3. **Read Relevant Context**: Read relevant files from `@docs/AI_CONTEXT/` based on bug scope:
-   - Always read: `AI_CONTEXT_QUICK_REFERENCE.md` and `AI_CONTEXT_REPOSITORY.md`
+   - Always read: AI_CONTEXT_QUICK_REFERENCE.md and AI_CONTEXT_REPOSITORY.md
    - Read service-specific context files if the bug affects Python service, webview UI, or extension host
-   - Always read: `AI_CONTEXT_PATTERNS.md` for code patterns and conventions
+   - Always read: AI_CONTEXT_PATTERNS.md for code patterns and conventions
 
 4. **Create Plan Directory Structure**: Ensure `_bugs/{bug_name}/plans/master/` directory exists.
 
@@ -74,7 +74,7 @@ If any prerequisites are missing, request completion of the investigation or res
 
 6. **Ensure Plan Completeness**: Verify the plan documents:
    - Cover all aspects needed for implementation
-   - Are detailed enough for `4-bug-fix-tasks` to create prioritized tasks
+   - Are detailed enough for 4-bug-fix-tasks to create prioritized tasks
    - Include clear fix scope and boundaries
    - Follow TDD approach (regression tests before fix when feasible)
 
@@ -103,4 +103,4 @@ _bugs/{bug_name}/plans/master/
   └── validation.md
 ```
 
-The plan documents should be comprehensive enough for the `4-bug-fix-tasks` command to decompose into actionable tasks.
+The plan documents should be comprehensive enough for the 4-bug-fix-tasks command to decompose into actionable tasks.

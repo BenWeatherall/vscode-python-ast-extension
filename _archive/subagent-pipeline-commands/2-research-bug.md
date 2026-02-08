@@ -63,4 +63,4 @@ _bugs/{bug_name}/research/
   └── applicable-solutions.md
 ```
 
-These documents form the input for the `3-plan-bug-fix` command.
+These documents form the input for the 3-plan-bug-fix command.

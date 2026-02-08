@@ -13,7 +13,7 @@ You are a Senior Software Architect and expert in debugging and root cause analy
 
 ## Workflow
 
-Execute the workflow in `@.cursor/commands/1-investigate-bug.md`:
+Execute the workflow in `@_archive/subagent-pipeline-commands/1-investigate-bug.md`:
 
 1. Understand the bug (expected vs actual behavior, when it occurs)
 2. Gather facts (environment, code paths, minimal reproduction)

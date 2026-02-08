@@ -16,7 +16,7 @@ Execute these phases in order. **Wait for user approval between Phase 3 and Phas
 Invoke the `/debug-specialist` subagent. Pass it the bug name and ask it to:
 
 1. Review the bug report or error description provided by the user
-2. Execute the workflow in `@.cursor/commands/1-investigate-bug.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/1-investigate-bug.md`
 3. Create investigation docs in `_bugs/{bug_name}/investigation/`
 4. Write a summary to `@.cursor/scratchpad.md` (bug name, investigation directory, root cause hypothesis, affected components)
 
@@ -25,7 +25,7 @@ Invoke the `/debug-specialist` subagent. Pass it the bug name and ask it to:
 Invoke the `/researcher` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and investigation docs from `_bugs/{bug_name}/investigation/`
-2. Execute the workflow in `@.cursor/commands/2-research-bug.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/2-research-bug.md`
 3. Create research docs in `_bugs/{bug_name}/research/`
 4. Update `@.cursor/scratchpad.md` with key findings and applicable solutions
 
@@ -34,7 +34,7 @@ Invoke the `/researcher` subagent. Ask it to:
 Invoke the `/architect` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and research docs from `_bugs/{bug_name}/research/`
-2. Execute the workflow in `@.cursor/commands/3-plan-bug-fix.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/3-plan-bug-fix.md`
 3. Create fix plan in `_bugs/{bug_name}/plans/master/`
 4. Update `@.cursor/scratchpad.md` with plan location and fix approach
 5. Present the plan summary to the user
@@ -46,7 +46,7 @@ Invoke the `/architect` subagent. Ask it to:
 Invoke the `/task-decomposer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` and the plan from `_bugs/{bug_name}/plans/master/`
-2. Execute the workflow in `@.cursor/commands/4-bug-fix-tasks.md`
+2. Execute the workflow in `@_archive/subagent-pipeline-commands/4-bug-fix-tasks.md`
 3. Create task documents in `_bugs/{bug_name}/tasks/`
 4. Update `@.cursor/scratchpad.md` with task count and execution order
 
@@ -55,7 +55,7 @@ Invoke the `/task-decomposer` subagent. Ask it to:
 Invoke the `/implementer` subagent. Ask it to:
 
 1. Read `@.cursor/scratchpad.md` for context
-2. Execute the full workflow in `@.cursor/commands/implement-fix.md`
+2. Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-fix.md`
 3. Use the bug name provided at the start
 4. Follow all phases: Context Gathering, Planning (with user approval), Implementation, Completion
 

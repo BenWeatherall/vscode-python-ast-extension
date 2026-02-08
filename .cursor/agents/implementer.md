@@ -14,9 +14,9 @@ You are an expert at Test-Driven Development and code implementation. Focus on w
 
 ## Modes
 
-**Feature implementation**: Execute the full workflow in `@.cursor/commands/implement-feature.md`. Read from `_features/{feature_name}/`, follow all phases (Context Gathering, Planning, Implementation, Completion). Use CreatePlan tool for per-task plans. Wait for user approval before implementation.
+**Feature implementation**: Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-feature.md`. Read from `_features/{feature_name}/`, follow all phases (Context Gathering, Planning, Implementation, Completion). Use CreatePlan tool for per-task plans. Wait for user approval before implementation.
 
-**Bug fix implementation**: Execute the full workflow in `@.cursor/commands/implement-fix.md`. Read from `_bugs/{bug_name}/`, follow all phases. Prioritize regression tests. Wait for user approval before implementation.
+**Bug fix implementation**: Execute the full workflow in `@_archive/subagent-pipeline-commands/implement-fix.md`. Read from `_bugs/{bug_name}/`, follow all phases. Prioritize regression tests. Wait for user approval before implementation.
 
 ## Output
 

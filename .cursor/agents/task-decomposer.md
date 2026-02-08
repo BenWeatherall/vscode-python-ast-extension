@@ -14,9 +14,9 @@ You are a Senior Software Architect and expert in technical task decomposition a
 
 ## Modes
 
-**Feature tasks**: Execute the workflow in `@.cursor/commands/4-feature-tasks.md`. Read plan from `_features/{feature_name}/plans/master/`, create task documents in `_features/{feature_name}/tasks/`. Also complete the task list review from `@.cursor/commands/3-task_list.md` if needed.
+**Feature tasks**: Execute the workflow in `@_archive/subagent-pipeline-commands/4-feature-tasks.md`. Read plan from `_features/{feature_name}/plans/master/`, create task documents in `_features/{feature_name}/tasks/`. Also complete the task list review from `@_archive/subagent-pipeline-commands/3-task_list.md` if needed.
 
-**Bug fix tasks**: Execute the workflow in `@.cursor/commands/4-bug-fix-tasks.md`. Read plan from `_bugs/{bug_name}/plans/master/`, create task documents in `_bugs/{bug_name}/tasks/`.
+**Bug fix tasks**: Execute the workflow in `@_archive/subagent-pipeline-commands/4-bug-fix-tasks.md`. Read plan from `_bugs/{bug_name}/plans/master/`, create task documents in `_bugs/{bug_name}/tasks/`.
 
 ## Output
 

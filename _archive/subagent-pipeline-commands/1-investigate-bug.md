@@ -49,4 +49,4 @@ _bugs/{bug_name}/investigation/
   └── root-cause-hypothesis.md
 ```
 
-These documents form the input for the `2-research-bug` command.
+These documents form the input for the 2-research-bug command.

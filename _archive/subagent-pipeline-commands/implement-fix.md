@@ -1,6 +1,6 @@
 # Implement Bug Fix
 
-Implement a bug fix following the structured workflow from investigation through tasks. Reads from `_bugs/{bug_name}/`, uses mandatory planning, TDD, and documentation updates. For detailed Phase 3/4 steps (test commands, code quality, changelog format), reference `@.cursor/commands/implement-feature.md`.
+Implement a bug fix following the structured workflow from investigation through tasks. Reads from `_bugs/{bug_name}/`, uses mandatory planning, TDD, and documentation updates. For detailed Phase 3/4 steps (test commands, code quality, changelog format), reference `@_archive/subagent-pipeline-commands/implement-feature.md`.
 
 ## Prerequisites
 
@@ -51,11 +51,11 @@ You MUST follow these phases in order. **Planning is mandatory** - do not skip t
 ### Step 1.1: Read Codebase Context
 
 1. Read relevant context files from `docs/AI_CONTEXT/` directory based on bug scope:
-   - **Always read**: `AI_CONTEXT_QUICK_REFERENCE.md` and `AI_CONTEXT_REPOSITORY.md`
-   - **If affecting Python service**: Read `AI_CONTEXT_PYTHON_SERVICE.md`
-   - **If affecting webview UI**: Read `AI_CONTEXT_WEBVIEW_UI.md`
-   - **If affecting extension host**: Read `AI_CONTEXT_EXTENSION_HOST.md`
-   - **Always read**: `AI_CONTEXT_PATTERNS.md` for code patterns and conventions
+   - **Always read**: AI_CONTEXT_QUICK_REFERENCE.md and AI_CONTEXT_REPOSITORY.md
+   - **If affecting Python service**: Read AI_CONTEXT_PYTHON_SERVICE.md
+   - **If affecting webview UI**: Read AI_CONTEXT_WEBVIEW_UI.md
+   - **If affecting extension host**: Read AI_CONTEXT_EXTENSION_HOST.md
+   - **Always read**: AI_CONTEXT_PATTERNS.md for code patterns and conventions
 
 2. Read root `CHANGELOG.md` (create if it doesn't exist) to understand recent changes and changelog format.
 
@@ -100,7 +100,7 @@ Save plans to `_bugs/{bug_name}/plans/tasks/` with file names matching task file
 
 ## Phase 3: Implementation (After Approval Only)
 
-Follow the TDD workflow. Reference `@.cursor/commands/implement-feature.md` for detailed commands:
+Follow the TDD workflow. Reference `@_archive/subagent-pipeline-commands/implement-feature.md` for detailed commands:
 
 - **Python service**: pytest, ruff, mypy
 - **Webview UI**: npm run test, lint, check

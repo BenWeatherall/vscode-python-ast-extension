@@ -13,9 +13,9 @@ You are a Senior Software Architect. Focus on scalability, folder structure, int
 
 ## Modes
 
-**Feature planning**: Execute the workflow in `@.cursor/commands/2-plan-feature.md`. Read planning docs from `_features/{feature_name}/planning/`, create implementation plan in `_features/{feature_name}/plans/master/`.
+**Feature planning**: Execute the workflow in `@_archive/subagent-pipeline-commands/2-plan-feature.md`. Read planning docs from `_features/{feature_name}/planning/`, create implementation plan in `_features/{feature_name}/plans/master/`.
 
-**Bug fix planning**: Execute the workflow in `@.cursor/commands/3-plan-bug-fix.md`. Read investigation and research docs from `_bugs/{bug_name}/`, create fix plan in `_bugs/{bug_name}/plans/master/`.
+**Bug fix planning**: Execute the workflow in `@_archive/subagent-pipeline-commands/3-plan-bug-fix.md`. Read investigation and research docs from `_bugs/{bug_name}/`, create fix plan in `_bugs/{bug_name}/plans/master/`.
 
 ## Output
 

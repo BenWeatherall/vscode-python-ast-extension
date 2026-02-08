@@ -31,9 +31,9 @@ Once prerequisites are verified:
    - Testing requirements
 
 3. **Read Relevant Context**: Read relevant files from `@docs/AI_CONTEXT/` based on the feature scope:
-   - Always read: `AI_CONTEXT_QUICK_REFERENCE.md` and `AI_CONTEXT_REPOSITORY.md`
+   - Always read: AI_CONTEXT_QUICK_REFERENCE.md and AI_CONTEXT_REPOSITORY.md
    - Read service-specific context files if the feature affects Python service, webview UI, or extension host
-   - Always read: `AI_CONTEXT_PATTERNS.md` for code patterns and conventions
+   - Always read: AI_CONTEXT_PATTERNS.md for code patterns and conventions
 
 4. **Create Plan Directory Structure**: Create the plan directory structure:
    - Ensure `_features/{feature_name}/plans/master/` directory exists
@@ -52,7 +52,7 @@ Once prerequisites are verified:
    - Component breakdown and responsibilities
    - Data flow and interactions
    - Design patterns and principles to be used
-   - References to existing architecture patterns from `AI_CONTEXT_PATTERNS.md`
+   - References to existing architecture patterns from AI_CONTEXT_PATTERNS.md
 
    **c. `interfaces.md`** - Interface definitions and contracts:
    - All public interfaces that will be created or modified
@@ -93,7 +93,7 @@ Once prerequisites are verified:
 
 6. **Ensure Plan Completeness**: Verify that the plan documents:
    - Cover all aspects needed for implementation
-   - Are detailed enough for the `task-list` command to review and create prioritized tasks
+   - Are detailed enough for the task-list command to review and create prioritized tasks
    - Include clear interface definitions between components
    - Prioritize models and interfaces before implementation code
    - Follow TDD approach (tests before implementation)
@@ -113,9 +113,9 @@ Each plan document should:
 - Be written in Markdown format
 - Be self-contained but reference other plan documents where appropriate
 - Include specific, actionable details (not vague descriptions)
-- Reference existing code patterns and conventions from `AI_CONTEXT_PATTERNS.md`
+- Reference existing code patterns and conventions from AI_CONTEXT_PATTERNS.md
 - Include file paths and specific locations for changes
-- Be detailed enough that the `task-list` command can:
+- Be detailed enough that the task-list command can:
   - Identify high-level tasks and their interdependence
   - Determine clear interface requirements between components
   - Create a prioritized list of tasks that, when completed, fully implement the plan
@@ -134,4 +134,4 @@ _features/{feature_name}/plans/master/
   └── documentation.md
 ```
 
-The plan documents should be comprehensive enough for the `task-list` command to review and create a prioritized list of tasks that, once completed, will ensure the plan is fully implemented.
+The plan documents should be comprehensive enough for the task-list command to review and create a prioritized list of tasks that, once completed, will ensure the plan is fully implemented.

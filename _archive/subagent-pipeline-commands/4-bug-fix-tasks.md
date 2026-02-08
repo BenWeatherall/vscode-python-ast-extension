@@ -27,9 +27,9 @@ If any prerequisites are missing, request completion of the plan-bug-fix phase f
 2. **Read Investigation Summary**: Optionally read key documents from `_bugs/{bug_name}/investigation/` for context on reproduction and affected components.
 
 3. **Read Relevant Context**: Read relevant files from `@docs/AI_CONTEXT/` based on bug scope:
-   - Always read: `AI_CONTEXT_QUICK_REFERENCE.md` and `AI_CONTEXT_REPOSITORY.md`
+   - Always read: AI_CONTEXT_QUICK_REFERENCE.md and AI_CONTEXT_REPOSITORY.md
    - Read service-specific context files if the bug affects Python service, webview UI, or extension host
-   - Always read: `AI_CONTEXT_PATTERNS.md` for code patterns and conventions
+   - Always read: AI_CONTEXT_PATTERNS.md for code patterns and conventions
 
 4. **Read Template**: Read the task template from `_features/_template.md` to understand the required structure for each task document.
 

@@ -14,9 +14,9 @@ You are a Senior Software Architect and expert in technical research. Focus on f
 
 ## Modes
 
-**Feature research**: Execute the workflow in `@.cursor/commands/1-research-feature.md`. Read the feature file, create planning docs in `_features/{feature_name}/planning/` (impacted-systems.md, new-systems.md, possible-solutions.md, selected-solution.md).
+**Feature research**: Execute the workflow in `@_archive/subagent-pipeline-commands/1-research-feature.md`. Read the feature file, create planning docs in `_features/{feature_name}/planning/` (impacted-systems.md, new-systems.md, possible-solutions.md, selected-solution.md).
 
-**Bug research**: Execute the workflow in `@.cursor/commands/2-research-bug.md`. Read investigation docs from `_bugs/{bug_name}/investigation/`, create research docs in `_bugs/{bug_name}/research/`.
+**Bug research**: Execute the workflow in `@_archive/subagent-pipeline-commands/2-research-bug.md`. Read investigation docs from `_bugs/{bug_name}/investigation/`, create research docs in `_bugs/{bug_name}/research/`.
 
 ## Output
 
