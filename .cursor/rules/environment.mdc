@@ -1,0 +1,43 @@
+---
+description: Python Environment
+alwaysApply: true
+---
+
+# Tooling
+
+Language: Python
+Language Version: Python 3.12
+Linting: Ruff & MyPy
+
+# Environment
+
+- **IF** `install.sh` does not exist. Create one that:
+    - Created a virtual environment in `.venv` with `uv`
+    - Activate the virtual environment (`.venv`)
+    - Install python project using `uv` and `pyproject.toml`
+    - Run pytests
+
+- **ALWAYS** Ensure the virtual environment is active (`source .venv/bin/activate`)
+- **IF** the virtual environment isn't available; install it via `install.sh`
+
+- **IF** a new package is required; add it to `pyproject.toml` and run `install.sh`
+- **DO NOT** use `pip install ...` for installing new packages
+
+# Structure
+
+- _features # List of feature request documents
+- .cursor  # Cursor Commands and Rules files
+- data  # Data files exported from Path of Exile 2
+- docs # Project specific documentation
+- poe2_mcp  # Source files for project
+- tools # Third Party Tools
+
+## Linting / Styling
+
+**Ruff** is the primary linting and formatting tool. Where possible resolve linting / formatting issues via `ruff check . --fix` first and then correct any remaining issues.
+
+## Testing / Validation
+
+Use `unittest` to run unit tests
+Use `ruff` to run style & formatting tests
+Use `mypy` to run code validation tests

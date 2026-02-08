@@ -1,0 +1,43 @@
+# Byte-compiled / cached
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Dependencies
+node_modules/
+
+# Logs and cache
+*.log
+logs/
+.cache/
+
+# Secrets and credentials
+.env
+.env.*
+*.key
+*.pem
+secrets.*
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.idea/
+.vscode/
+
+# Cursor pipeline scratchpad (transient session state)
+.cursor/scratchpad.md
