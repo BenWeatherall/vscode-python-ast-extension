@@ -3,6 +3,18 @@
 ## [Unreleased]
 
 ### Added
+- Python service entry point (python -m python_service)
+  - Plan: [07-python-service-entry-point](_archive/python-ast-visualization/plans/tasks/07-python-service-entry-point.md)
+  - Task: [07-python-service-entry-point](_archive/python-ast-visualization/tasks/07-python-service-entry-point.md)
+- Communication server (ASTParseServer: stdio, JSON-RPC-like protocol)
+  - Plan: [06-communication-server](_archive/python-ast-visualization/plans/tasks/06-communication-server.md)
+  - Task: [06-communication-server](_archive/python-ast-visualization/tasks/06-communication-server.md)
+- AST node type handlers (Call, If, For, While, Return, Assign, AugAssign, Constant, List, Dict)
+  - Plan: [05-ast-node-type-handlers](_archive/python-ast-visualization/plans/tasks/05-ast-node-type-handlers.md)
+  - Task: [05-ast-node-type-handlers](_archive/python-ast-visualization/tasks/05-ast-node-type-handlers.md)
+- AST parser core (ReteConverter: BinOp, Name, FunctionDef, ClassDef, Pass)
+  - Plan: [04-ast-parser-core](_archive/python-ast-visualization/plans/tasks/04-ast-parser-core.md)
+  - Task: [04-ast-parser-core](_archive/python-ast-visualization/tasks/04-ast-parser-core.md)
 - TypeScript type definitions and snake_case↔camelCase conversion (webview-ui)
   - Plan: [03-typescript-type-definitions](_archive/python-ast-visualization/plans/tasks/03-typescript-type-definitions.md)
   - Task: [03-typescript-type-definitions](_archive/python-ast-visualization/tasks/03-typescript-type-definitions.md)
