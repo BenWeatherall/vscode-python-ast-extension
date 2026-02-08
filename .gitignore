@@ -29,6 +29,7 @@ dist/
 build/
 *.egg-info/
 .eggs/
+out/
 
 # Python tooling
 .pytest_cache/
