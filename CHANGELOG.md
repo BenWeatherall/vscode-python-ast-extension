@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Added
+- VSIX packaging configuration in `package.json`: `publisher` field, `build:python-binaries` and `vscode:package` scripts, `@vscode/vsce` dev dependency
+  - Plan: [09-add-package-json-configuration](_archive/vscode-extension-packaging/plans/tasks/09-add-package-json-configuration.md)
+  - Task: [09-add-package-json-configuration](_archive/vscode-extension-packaging/tasks/09-add-package-json-configuration.md)
 - Build script for platform-specific Python service binaries using PyInstaller (`scripts/build-binaries.js`)
   - Plan: [08-create-build-scripts](_archive/vscode-extension-packaging/plans/tasks/08-create-build-scripts.md)
   - Task: [08-create-build-scripts](_archive/vscode-extension-packaging/tasks/08-create-build-scripts.md)
