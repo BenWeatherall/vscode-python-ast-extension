@@ -8,6 +8,9 @@
   - Task: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/tasks/06-write-extension-integration-tests.md)
 
 ### Changed
+- Extension activation resolves binary path and injects into PythonClient; logs warning and falls back to system Python when binary not found
+  - Plan: [07-modify-extension-activation](_archive/vscode-extension-packaging/plans/tasks/07-modify-extension-activation.md)
+  - Task: [07-modify-extension-activation](_archive/vscode-extension-packaging/tasks/07-modify-extension-activation.md)
 - PythonClient accepts optional `binaryPath` parameter; spawns binary directly when provided, falls back to `python -m python_service` otherwise
   - Plan: [05-modify-pythonclient](_archive/vscode-extension-packaging/plans/tasks/05-modify-pythonclient.md)
   - Task: [05-modify-pythonclient](_archive/vscode-extension-packaging/tasks/05-modify-pythonclient.md)

@@ -13,6 +13,9 @@ import { activate, deactivate, createVisualizationPanel } from "../../src/extens
 import type { ReteGraph } from "../../src/types";
 
 jest.mock("../../src/pythonClient");
+jest.mock("../../src/binaryResolver", () => ({
+  resolveBinaryPath: jest.fn().mockReturnValue("/mock/binary/path"),
+}));
 jest.mock("../../webview-ui/src/editor", () => {
   const actual = jest.requireActual<typeof import("../../webview-ui/src/editor")>("../../webview-ui/src/editor");
   

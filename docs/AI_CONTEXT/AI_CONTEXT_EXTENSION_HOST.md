@@ -31,10 +31,23 @@ The `src/` directory contains the VS Code extension host that bridges VS Code, t
 
 On extension activation:
 
-1. **Creates `PythonClient` singleton**:
+1. **Resolves binary path and creates `PythonClient` singleton**:
    ```typescript
-   pythonClient = new PythonClient();
+   let binaryPath: string | null = null;
+   try {
+     binaryPath = resolveBinaryPath(context.extensionPath);
+   } catch {
+     binaryPath = null;
+   }
+   if (!binaryPath) {
+     getOutputChannel().appendLine("Warning: ...");
+   }
+   pythonClient = new PythonClient(binaryPath);
    ```
+   - Resolves platform-specific binary from extension `bin/` directory
+   - Catches errors gracefully (development mode fallback)
+   - Logs warning to Output channel if binary not found
+   - Passes resolved path (or `null`) to `PythonClient`
 
 2. **Registers `python-ast.visualize` command**:
    - Validates active editor exists and is a Python file

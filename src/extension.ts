@@ -2,6 +2,7 @@
 
 import * as vscode from "vscode";
 import { PythonClient } from "./pythonClient";
+import { resolveBinaryPath } from "./binaryResolver";
 import type { ReteGraph } from "./types";
 
 let pythonClient: PythonClient | null = null;
@@ -171,12 +172,40 @@ async function handleAutoRefresh(document: vscode.TextDocument): Promise<void> {
 
 /**
  * Activates the extension.
+ *
+ * Resolves Python service binary path from extension context and passes it to PythonClient.
+ * If binary not found (development mode), logs warning and falls back to system Python.
  * Creates PythonClient instance, registers the 'python-ast.visualize' command,
  * and sets up auto-refresh on file save.
+ *
+ * Binary Resolution:
+ * - Attempts to resolve platform-specific binary from extension bin/ directory
+ * - Falls back to "python -m python_service" if binary not found
+ * - Logs warning to output channel in development mode (binary not found)
+ *
+ * Error Handling:
+ * - Activation continues even if binary not found (graceful fallback)
+ * - No exceptions thrown for missing binaries or unsupported platforms
+ *
  * @param context - VS Code extension context for subscriptions.
  */
 export function activate(context: vscode.ExtensionContext): void {
-  pythonClient = new PythonClient();
+  let binaryPath: string | null = null;
+  try {
+    binaryPath = resolveBinaryPath(context.extensionPath);
+  } catch {
+    // Binary resolution failed, continue with null (development mode fallback)
+    binaryPath = null;
+  }
+
+  if (!binaryPath) {
+    const channel = getOutputChannel();
+    channel.appendLine(
+      "Warning: Python service binary not found, using system Python"
+    );
+  }
+
+  pythonClient = new PythonClient(binaryPath);
 
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument((doc) => handleAutoRefresh(doc))
