@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Added
+- `.vscodeignore` to exclude development artifacts from VSIX packaging while keeping runtime files (`out/`, `bin/`, `package.json`, `README.md`)
+  - Plan: [10-create-vscodeignore](_archive/vscode-extension-packaging/plans/tasks/10-create-vscodeignore.md)
+  - Task: [10-create-vscodeignore](_archive/vscode-extension-packaging/tasks/10-create-vscodeignore.md)
 - VSIX packaging configuration in `package.json`: `publisher` field, `build:python-binaries` and `vscode:package` scripts, `@vscode/vsce` dev dependency
   - Plan: [09-add-package-json-configuration](_archive/vscode-extension-packaging/plans/tasks/09-add-package-json-configuration.md)
   - Task: [09-add-package-json-configuration](_archive/vscode-extension-packaging/tasks/09-add-package-json-configuration.md)

@@ -1,0 +1,48 @@
+# Development environments
+.venv/
+**/.venv/
+**/__pycache__/
+
+# Test files
+tests/
+**/*.test.ts
+**/*.test.tsx
+**/*.test.py
+**/__tests__/
+
+# Development tools
+.cursor/
+.git/
+.github/
+
+# Build artifacts (keep out/)
+**/*.map
+.build/
+
+# Source files (keep only compiled)
+src/
+webview-ui/src/
+python_service/
+
+# Node modules
+node_modules/
+
+# Documentation and planning
+docs/
+_features/
+_archive/
+
+# Data files
+data/
+
+# Third party tools
+tools/
+
+# Config files not needed at runtime
+tsconfig.json
+jest.config.ts
+tailwind.config.js
+pyproject.toml
+install.sh
+.gitignore
+scripts/
