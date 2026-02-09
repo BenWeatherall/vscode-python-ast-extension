@@ -34,13 +34,20 @@ export const window = {
       html: "",
       postMessage: mockPostMessage,
       onDidReceiveMessage: mockOnDidReceiveMessage,
+      asWebviewUri: jest.fn((uri: { path: string }) => ({ toString: () => `vscode-resource:${uri.path}` })),
     },
     onDidDispose: jest.fn(() => ({ dispose: jest.fn() })),
     reveal: jest.fn(),
   })),
 };
 
-export const Uri = { file: jest.fn((p: string) => ({ path: p, fsPath: p })) };
+export const Uri = {
+  file: jest.fn((p: string) => ({ path: p, fsPath: p })),
+  joinPath: jest.fn((base: { path: string }, ...segments: string[]) => {
+    const joined = [base.path, ...segments].join("/").replace(/\/+/g, "/");
+    return { path: joined, fsPath: joined };
+  }),
+};
 export const ViewColumn = { One: 1, Beside: 2 };
 export const Position = jest.fn((line: number, character: number) => ({
   line,

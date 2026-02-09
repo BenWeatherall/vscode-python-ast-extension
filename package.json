@@ -25,8 +25,8 @@
   "scripts": {
     "compile": "tsc -p .",
     "watch": "tsc -p . -w",
-    "build": "pnpm run compile",
-    "bundle-webview": "echo 'Webview bundle - configure in Task 11'",
+    "build": "npm run compile && npm run bundle-webview",
+    "bundle-webview": "esbuild webview-ui/src/index.tsx --bundle --outfile=out/media/webview.js --format=iife --global-name=webviewBundle",
     "test": "jest",
     "test:python": "python -m pytest tests/ -v"
   },
@@ -43,6 +43,9 @@
     "tailwindcss": "^3.0.0"
   },
   "devDependencies": {
+    "esbuild": "^0.24.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/jest": "^29.0.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",

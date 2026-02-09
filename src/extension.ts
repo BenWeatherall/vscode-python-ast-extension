@@ -119,21 +119,16 @@ function handleNavigateToSource(
   });
 }
 
-function getWebviewHtml(_webview: vscode.Webview): string {
+function getWebviewHtml(webview: vscode.Webview): string {
+  const scriptUri = webview.asWebviewUri(
+    vscode.Uri.joinPath(vscode.Uri.file(__dirname), "media", "webview.js")
+  );
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><title>AST Visualization</title></head>
 <body>
   <div id="root"></div>
-  <script>
-    const vscode = acquireVsCodeApi();
-    window.addEventListener('message', e => {
-      const msg = e.data;
-      if (msg && msg.type === 'updateGraph') window.__graphData = msg.graph;
-      if (msg && msg.type === 'error') window.__errorData = msg.error;
-    });
-    window.__postToExtension = (msg) => vscode.postMessage(msg);
-  </script>
+  <script src="${scriptUri}"></script>
 </body>
 </html>`;
 }

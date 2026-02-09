@@ -1,5 +1,6 @@
 /** Rete.js AST editor for graph visualization. */
 
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { NodeEditor, GetSchemes, ClassicPreset } from "rete";
 import { AreaPlugin, AreaExtensions } from "rete-area-plugin";
@@ -8,6 +9,7 @@ import {
   Presets as ConnectionPresets,
 } from "rete-connection-plugin";
 import { ReactPlugin, Presets, ReactArea2D } from "rete-react-plugin";
+import { getNodeComponent } from "./nodes";
 import type { NodeData, ReteConnection, ReteGraph, ReteNode } from "./types";
 
 /** Handler for node click events. */
@@ -44,7 +46,28 @@ export class ReteASTEditor implements ASTEditor {
     const render = new ReactPlugin<Schemes, AreaExtra>({ createRoot });
     const connection = new ConnectionPlugin<Schemes, AreaExtra>();
 
-    render.addPreset(Presets.classic.setup());
+    const self = this;
+    render.addPreset(
+      Presets.classic.setup({
+        customize: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          node: (contextData) => {
+            const Component = getNodeComponent(contextData.payload.label);
+            return (props: any) => {
+              const handleClick = () => {
+                const data = (props.data as { data?: NodeData }).data ?? { astType: props.data.label };
+                self.nodeClickHandlers.forEach((h) => h(props.data.id, data));
+              };
+              return (
+                <div onClick={handleClick} data-testid="ast-node" style={{ cursor: "pointer" }}>
+                  <Component {...props} />
+                </div>
+              );
+            };
+          },
+        },
+      })
+    );
     connection.addPreset(ConnectionPresets.classic.setup());
 
     editor.use(area);
