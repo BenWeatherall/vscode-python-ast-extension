@@ -88,7 +88,7 @@ For **each** task in the applicable list:
 2. Invoke the `/implementer` subagent with a **fresh agent context**. Pass the bug name and single task file path. Ask it to:
    - Read `@.cursor/scratchpad.md` for context
    - Execute the workflow in `@_archive/subagent-pipeline-commands/implement-task-fix.md`
-   - Implement **only** that task; do not proceed to the next task until all tests pass
+   - Implement **only** that task; do not proceed to the next task until all tests pass (tests marked as expected failures are excluded; all other failures are regressions that must be resolved)
    - Update `@.cursor/scratchpad.md` with task completion status
 
 **Invoke architect and implementer once per task. Each invocation uses a fresh agent context.**

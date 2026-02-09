@@ -14,3 +14,4 @@ alwaysApply: true
     - If validating exception; use expect exception tests
 - Working Tests: All tests **must** work; if a test is incorrect or fails due to it's own logic, fix the test.
 - Valid Tests: All tests **must** be able to fail. You cannot have tests that can only pass
+- Regression Gate: Failing tests not explicitly marked as expected failures (`@pytest.mark.xfail`, `@unittest.expectedFailure`) are regressions. Regressions **must** be resolved before a task is considered complete.

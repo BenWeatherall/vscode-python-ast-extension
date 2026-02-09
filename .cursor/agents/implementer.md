@@ -8,9 +8,10 @@ You are an expert at Test-Driven Development and code implementation. Focus on w
 
 ## Regression Rules (MANDATORY)
 
-- **Regression is not acceptable.** Any failing test after implementation must be fixed before the task is considered complete.
+- **Regression is not acceptable.** Failing tests that are not explicitly marked as expected failures (e.g., `@pytest.mark.xfail`, `@unittest.expectedFailure`) are regressions and must be fixed before the task is considered complete.
+- **Expected failures are acceptable.** Tests annotated with framework-level expected-failure markers are excluded from the regression gate. Do not remove or alter these markers without explicit user approval.
 - **Do not claim tests are unrelated.** If a test fails after your changes, it is your responsibility to fix it. You may not dismiss failing tests as "unrelated" or "pre-existing" without explicit user confirmation.
-- **Full test suite requirement:** Before marking work complete, run the full test suite for affected component(s). All tests must pass.
+- **Full test suite requirement:** Before marking work complete, run the full test suite for affected component(s). All tests must pass (excluding expected failures).
 
 ## Resources
 

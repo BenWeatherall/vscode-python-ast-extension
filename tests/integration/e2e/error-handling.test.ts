@@ -19,7 +19,7 @@ function createMockEditor(doc: {
   languageId: string;
 }): vscode.TextEditor {
   return {
-    document: doc as vscode.TextDocument,
+    document: { ...doc, uri: vscode.Uri.file("/test/file.py") } as vscode.TextDocument,
     selection: {} as vscode.Selection,
     viewColumn: undefined,
     options: {},

@@ -226,4 +226,203 @@ describe("PythonClient", () => {
       expect(g2.nodes[0].id).toBe("b1");
     });
   });
+
+  describe("constructor", () => {
+    it("accepts binary path parameter", () => {
+      const client = new PythonClient("/path/to/binary.exe");
+      expect(client).toBeInstanceOf(PythonClient);
+    });
+
+    it("accepts null binary path", () => {
+      const client = new PythonClient(null);
+      expect(client).toBeInstanceOf(PythonClient);
+    });
+
+    it("accepts undefined binary path", () => {
+      const client = new PythonClient(undefined);
+      expect(client).toBeInstanceOf(PythonClient);
+    });
+
+    it("accepts no arguments", () => {
+      const client = new PythonClient();
+      expect(client).toBeInstanceOf(PythonClient);
+    });
+  });
+
+  describe("spawnService", () => {
+    describe("with binary path", () => {
+      it("spawns binary when path provided", async () => {
+        const mockProc = createMockProcess();
+        mockSpawn.mockReturnValue(mockProc as never);
+
+        const client = new PythonClient("/path/to/binary.exe");
+        await client.spawnService();
+
+        expect(mockSpawn).toHaveBeenCalledWith(
+          "/path/to/binary.exe",
+          [],
+          expect.objectContaining({
+            stdio: ["pipe", "pipe", "pipe"],
+          })
+        );
+      });
+    });
+
+    describe("without binary path", () => {
+      it("spawns Python command when path not provided", async () => {
+        const mockProc = createMockProcess();
+        mockSpawn.mockReturnValue(mockProc as never);
+
+        const client = new PythonClient(null);
+        await client.spawnService();
+
+        expect(mockSpawn).toHaveBeenCalledWith(
+          "python",
+          ["-m", "python_service"],
+          expect.objectContaining({
+            stdio: ["pipe", "pipe", "pipe"],
+          })
+        );
+      });
+
+      it("spawns Python command when path undefined", async () => {
+        const mockProc = createMockProcess();
+        mockSpawn.mockReturnValue(mockProc as never);
+
+        const client = new PythonClient(undefined);
+        await client.spawnService();
+
+        expect(mockSpawn).toHaveBeenCalledWith(
+          "python",
+          ["-m", "python_service"],
+          expect.objectContaining({
+            stdio: ["pipe", "pipe", "pipe"],
+          })
+        );
+      });
+
+      it("spawns Python command when no arguments", async () => {
+        const mockProc = createMockProcess();
+        mockSpawn.mockReturnValue(mockProc as never);
+
+        const client = new PythonClient();
+        await client.spawnService();
+
+        expect(mockSpawn).toHaveBeenCalledWith(
+          "python",
+          ["-m", "python_service"],
+          expect.objectContaining({
+            stdio: ["pipe", "pipe", "pipe"],
+          })
+        );
+      });
+    });
+  });
+
+  describe("protocol compatibility", () => {
+    it("maintains JSON-RPC protocol with binary execution", async () => {
+      const mockProc = createMockProcess();
+      mockSpawn.mockReturnValue(mockProc as never);
+
+      const client = new PythonClient("/path/to/binary.exe");
+      await client.spawnService();
+
+      const pythonGraph = {
+        nodes: [
+          {
+            id: "n1",
+            label: "FunctionDef",
+            inputs: {},
+            outputs: { body: {} },
+            data: { ast_type: "FunctionDef", lineno: 1 },
+          },
+        ],
+        connections: [],
+      };
+
+      const parsePromise = client.parseAST("def hello(): pass");
+      mockProc.sendResponse({ result: pythonGraph });
+
+      const graph = await parsePromise;
+      expect(graph.nodes).toHaveLength(1);
+      expect(graph.nodes[0].data.astType).toBe("FunctionDef");
+      expect(graph.nodes[0].data.lineno).toBe(1);
+    });
+
+    it("maintains JSON-RPC protocol with Python command", async () => {
+      const mockProc = createMockProcess();
+      mockSpawn.mockReturnValue(mockProc as never);
+
+      const client = new PythonClient(null);
+      await client.spawnService();
+
+      const pythonGraph = {
+        nodes: [
+          {
+            id: "n1",
+            label: "FunctionDef",
+            inputs: {},
+            outputs: { body: {} },
+            data: { ast_type: "FunctionDef", lineno: 1 },
+          },
+        ],
+        connections: [],
+      };
+
+      const parsePromise = client.parseAST("def hello(): pass");
+      mockProc.sendResponse({ result: pythonGraph });
+
+      const graph = await parsePromise;
+      expect(graph.nodes).toHaveLength(1);
+      expect(graph.nodes[0].data.astType).toBe("FunctionDef");
+    });
+  });
+
+  describe("edge cases", () => {
+    it("handles binary execution failure", async () => {
+      const mockProc = createMockProcess();
+      // Override on() to trigger error event instead of spawn
+      mockProc.on.mockImplementation((event: string, callback: (err?: Error) => void) => {
+        if (event === "error") {
+          setTimeout(() => callback(new Error("ENOENT: no such file or directory")), 0);
+        }
+        return mockProc;
+      });
+      mockSpawn.mockReturnValue(mockProc as never);
+
+      const client = new PythonClient("/path/to/nonexistent.exe");
+
+      await expect(client.spawnService()).rejects.toThrow(/Failed to spawn|ENOENT/);
+    });
+
+    it("handles binary exit error", async () => {
+      const mockProc = createMockProcess();
+      mockSpawn.mockReturnValue(mockProc as never);
+
+      const client = new PythonClient("/path/to/binary.exe");
+      await client.spawnService();
+
+      const parsePromise = client.parseAST("x = 1");
+      mockProc.triggerExit(1);
+
+      await expect(parsePromise).rejects.toThrow(/service|unavailable|exit|error/i);
+    });
+
+    it("handles empty binary path string", async () => {
+      const mockProc = createMockProcess();
+      mockSpawn.mockReturnValue(mockProc as never);
+
+      const client = new PythonClient("");
+      await client.spawnService();
+
+      // Empty string treated as falsy; should fall back to Python command
+      expect(mockSpawn).toHaveBeenCalledWith(
+        "python",
+        ["-m", "python_service"],
+        expect.objectContaining({
+          stdio: ["pipe", "pipe", "pipe"],
+        })
+      );
+    });
+  });
 });

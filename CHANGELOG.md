@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Changed
+- PythonClient accepts optional `binaryPath` parameter; spawns binary directly when provided, falls back to `python -m python_service` otherwise
+  - Plan: [05-modify-pythonclient](_archive/vscode-extension-packaging/plans/tasks/05-modify-pythonclient.md)
+  - Task: [05-modify-pythonclient](_archive/vscode-extension-packaging/tasks/05-modify-pythonclient.md)
+
+### Fixed
+- Fixed pre-existing test bugs: mock editors missing `uri` property, incorrect auto-refresh expectations, error-handling test file type (.ts→.tsx), App loading text assertion
+  - Related to task 05 regression cleanup
+
 ### Added
 - Code documentation (Google-style docstrings for Python, JSDoc for TypeScript)
   - Plan: [20-code-documentation](_archive/python-ast-visualization/plans/tasks/20-code-documentation.md)

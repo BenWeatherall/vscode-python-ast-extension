@@ -67,15 +67,23 @@ On deactivation:
 
 ## PythonClient Lifecycle (`pythonClient.ts`)
 
-### `spawnService(): Promise<void>`
-
-Spawns the Python service process:
+### Constructor
 
 ```typescript
-spawn("python", ["-m", "python_service"], {
-  stdio: ["pipe", "pipe", "pipe"]
-})
+constructor(binaryPath?: string | null)
 ```
+
+- Accepts optional path to a bundled binary executable
+- If `binaryPath` is provided (truthy string), `spawnService()` executes the binary directly
+- If `null`, `undefined`, empty string, or omitted, falls back to `python -m python_service`
+- Stored internally as `private readonly binaryPath: string | null`
+
+### `spawnService(): Promise<void>`
+
+Spawns the Python service process. Command depends on constructor configuration:
+
+- **Binary path provided**: `spawn(binaryPath, [], { stdio: ["pipe", "pipe", "pipe"] })`
+- **No binary path**: `spawn("python", ["-m", "python_service"], { stdio: ["pipe", "pipe", "pipe"] })`
 
 - Resolves on `"spawn"` event
 - Rejects on `"error"` or non-zero `"exit"` events

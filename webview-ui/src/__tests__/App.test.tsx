@@ -108,7 +108,7 @@ describe("App", () => {
 
   it("shows loading state initially", async () => {
     await renderApp();
-    expect(screen.getByText(/loading/i)).toBeTruthy();
+    expect(screen.getByTestId("loading")).toBeTruthy();
   });
 
   it("handles updateGraph message and loads graph", async () => {

@@ -20,14 +20,32 @@ interface ParseResponse {
 /** Client for spawning and communicating with the Python AST parse service. */
 export class PythonClient {
   private process: ChildProcess | null = null;
+  private readonly binaryPath: string | null;
+
+  /**
+   * Creates a new PythonClient instance.
+   * @param binaryPath - Optional path to Python service binary executable.
+   *   If provided, the binary is executed directly. If null, undefined,
+   *   empty string, or omitted, falls back to `python -m python_service`.
+   */
+  constructor(binaryPath?: string | null) {
+    this.binaryPath = binaryPath || null;
+  }
 
   /**
    * Spawns the Python service process using stdio for communication.
+   *
+   * If a binary path was provided to the constructor, executes the binary directly
+   * with no arguments. Otherwise, falls back to `python -m python_service`.
+   *
    * @throws Error if spawn fails or process exits immediately
    */
   async spawnService(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const proc = spawn("python", ["-m", "python_service"], {
+      const command = this.binaryPath || "python";
+      const args = this.binaryPath ? [] : ["-m", "python_service"];
+
+      const proc = spawn(command, args, {
         stdio: ["pipe", "pipe", "pipe"],
       });
 

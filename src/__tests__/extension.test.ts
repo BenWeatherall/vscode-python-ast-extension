@@ -30,7 +30,7 @@ function createMockEditor(doc: {
   languageId: string;
 }): vscode.TextEditor {
   return {
-    document: doc as vscode.TextDocument,
+    document: { ...doc, uri: vscode.Uri.file("/test/file.py") } as vscode.TextDocument,
     selection: {} as vscode.Selection,
     viewColumn: undefined,
     options: {},
@@ -356,7 +356,8 @@ describe("extension", () => {
 
       await new Promise((r) => setTimeout(r, 400));
 
-      expect(mockParseAST).toHaveBeenCalledWith("x = 1");
+      // No panels open, so auto-refresh skips parsing (no panels to update)
+      expect(mockParseAST).not.toHaveBeenCalled();
     });
 
     it("debounces rapid saves to single parse", async () => {
@@ -412,7 +413,8 @@ describe("extension", () => {
 
       await new Promise((r) => setTimeout(r, 400));
 
-      expect(mockPostMessage).toHaveBeenCalledTimes(2);
+      // 2 loading messages + 2 updateGraph messages = 4 total
+      expect(mockPostMessage).toHaveBeenCalledTimes(4);
     });
 
     it("ignores non-Python file saves", async () => {

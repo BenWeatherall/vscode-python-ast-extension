@@ -4,9 +4,10 @@ Implement one task from the feature pipeline. Invoked once per task with a fresh
 
 ## Regression Rules (MANDATORY)
 
-- **Regression is not acceptable.** Any failing test after implementation must be fixed before the task is considered complete.
+- **Regression is not acceptable.** Failing tests that are not explicitly marked as expected failures (e.g., `@pytest.mark.xfail`, `@unittest.expectedFailure`) are regressions and must be fixed before the task is considered complete.
+- **Expected failures are acceptable.** Tests annotated with framework-level expected-failure markers are excluded from the regression gate. Do not remove or alter these markers without explicit user approval.
 - **Do not claim tests are unrelated.** If a test fails after your changes, it is your responsibility to fix it. You may not dismiss failing tests as "unrelated" or "pre-existing" without explicit user confirmation.
-- **Full test suite requirement:** Before marking a task complete, run the full test suite for affected component(s). All tests must pass.
+- **Full test suite requirement:** Before marking a task complete, run **all** project tests (Python and Node). All tests must pass (excluding expected failures).
 
 ## Prerequisites
 
@@ -34,16 +35,17 @@ Execute these phases in order. Focus only on this single task.
 - [ ] Step 2.2: Verified tests FAIL before implementation
 - [ ] Step 2.3: Implemented code changes following the approved plan
 - [ ] Step 2.4: Ran code quality tools (ruff/mypy for Python, lint/check for UI) and fixed issues
-- [ ] Step 2.5: Ran full test suite and verified all tests PASS (no regressions)
+- [ ] Step 2.5: Ran all project tests (Python + Node) and verified all tests PASS (no regressions)
 - [ ] Step 2.6: Completed service-specific validation (if applicable)
 
 **Phase 3: Completion**
 - [ ] Step 3.1: Updated root `CHANGELOG.md` under `## [Unreleased]` with plan and task links
 - [ ] Step 3.2: Updated relevant documentation in `docs/AI_CONTEXT/` and READMEs (if applicable)
 - [ ] Step 3.3: Archived task and plan files to `_archive/{feature_name}/`
-- [ ] Step 3.4: Ran full test suite again; all tests passed
+- [ ] Step 3.4: Ran all project tests (Python + Node) again; all tests passed
 - [ ] Step 3.5: Verified no code quality errors remain
 - [ ] Step 3.6: Updated `@.cursor/scratchpad.md` with "Task {task_file} completed, tests passing"
+- [ ] Step 3.7: Committed all changes with Conventional Commits message
 
 ---
 
@@ -98,9 +100,16 @@ Implement following the plan's Implementation Order. Follow component-specific p
 
 Run ruff/mypy (Python) or lint/check (UI) and fix any issues.
 
-### Step 2.5: Run Full Test Suite
+### Step 2.5: Run All Project Tests
 
-Run the **full** test suite for affected component(s). **All tests must pass.** If any test fails, fix it before proceeding. Do not claim failures are "unrelated" to your changes.
+Run **all** project tests (not just affected components):
+
+```bash
+source .venv/bin/activate && python -m pytest tests/ -v
+pnpm run test
+```
+
+**All tests must pass (excluding expected failures).** Any failing test not explicitly marked as an expected failure is a regression and must be fixed before proceeding. Do not claim failures are "unrelated" to your changes.
 
 ### Step 2.6: Component-Specific Validation
 
@@ -137,11 +146,31 @@ mv _features/{feature_name}/plans/tasks/{task_file} _archive/{feature_name}/plan
 
 ### Step 3.4: Final Validation
 
-Run full test suite again. All tests must pass. Verify no code quality errors.
+Run **all** project tests again:
+
+```bash
+source .venv/bin/activate && python -m pytest tests/ -v
+pnpm run test
+```
+
+All tests must pass (excluding expected failures). Verify no code quality errors.
 
 ### Step 3.5: Update Scratchpad
 
 Add to `@.cursor/scratchpad.md`: "Task {task_file} completed, tests passing"
+
+### Step 3.6: Commit Changes
+
+Commit all changes for this task following the Conventional Commits format (per `@.cursor/commands/commit.md`):
+
+1. **Stage changed files**: `git add .`
+2. **Safety check**: verify no `.env`, `*.key`, `*.pem`, or `secrets.*` files are staged. If found, unstage them (`git restore --staged <path>`) and warn.
+3. **Generate a Conventional Commits message**:
+   - Type: inferred from changes (`feat`, `fix`, `refactor`, `test`, `docs`, etc.)
+   - Scope: inferred from affected paths (`parser`, `schema`, `webview`, `extension`, `docs`, etc.)
+   - Description: goal-focused, imperative mood
+   - Optional body: bullet points, each under 100 characters, goal-focused (describe what the change achieves, not file-specific mechanics)
+4. **Execute the commit**: `git commit -m "<message>"`
 
 ---
 

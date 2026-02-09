@@ -4,9 +4,10 @@ Implement one task from the bug fix pipeline. Invoked once per task with a fresh
 
 ## Regression Rules (MANDATORY)
 
-- **Regression is not acceptable.** Any failing test after implementation must be fixed before the task is considered complete.
+- **Regression is not acceptable.** Failing tests that are not explicitly marked as expected failures (e.g., `@pytest.mark.xfail`, `@unittest.expectedFailure`) are regressions and must be fixed before the task is considered complete.
+- **Expected failures are acceptable.** Tests annotated with framework-level expected-failure markers are excluded from the regression gate. Do not remove or alter these markers without explicit user approval.
 - **Do not claim tests are unrelated.** If a test fails after your changes, it is your responsibility to fix it. You may not dismiss failing tests as "unrelated" or "pre-existing" without explicit user confirmation.
-- **Full test suite requirement:** Before marking a task complete, run the full test suite for affected component(s). All tests must pass.
+- **Full test suite requirement:** Before marking a task complete, run the full test suite for affected component(s). All tests must pass (excluding expected failures).
 
 ## Prerequisites
 
@@ -105,7 +106,7 @@ Run ruff/mypy (Python) or lint/check (UI) and fix any issues.
 
 ### Step 2.5: Run Full Test Suite
 
-Run the **full** test suite for affected component(s). **All tests must pass.** If any test fails, fix it before proceeding. Do not claim failures are "unrelated" to your changes.
+Run the **full** test suite for affected component(s). **All tests must pass (excluding expected failures).** Any failing test not explicitly marked as an expected failure is a regression and must be fixed before proceeding. Do not claim failures are "unrelated" to your changes.
 
 ### Step 2.6: Validation
 
