@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Added
+- Build script for platform-specific Python service binaries using PyInstaller (`scripts/build-binaries.js`)
+  - Plan: [08-create-build-scripts](_archive/vscode-extension-packaging/plans/tasks/08-create-build-scripts.md)
+  - Task: [08-create-build-scripts](_archive/vscode-extension-packaging/tasks/08-create-build-scripts.md)
 - Extension integration tests for binary resolution during activation (7 TDD tests: resolve binary, missing binary, unsupported platform, activation continuity, flow-through, error handling, logging)
   - Plan: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/plans/tasks/06-write-extension-integration-tests.md)
   - Task: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/tasks/06-write-extension-integration-tests.md)
