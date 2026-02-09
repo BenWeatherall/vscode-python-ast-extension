@@ -36,6 +36,12 @@ Linting: Ruff & MyPy
 - poe2_mcp  # Source files for project
 - tools # Third Party Tools
 
+## Git
+
+- This project's Git does **not** support the `--trailer` flag
+- **ALWAYS** use `scripts\git-commit.cmd` instead of `git commit` — it strips unsupported `--trailer` arguments before forwarding to Git
+- The wrapper accepts all standard `git commit` arguments (e.g. `-m`, `-a`, `--amend`)
+
 ## Linting / Styling
 
 **Ruff** is the primary linting and formatting tool. Where possible resolve linting / formatting issues via `ruff check . --fix` first and then correct any remaining issues.

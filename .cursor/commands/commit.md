@@ -147,3 +147,11 @@ Present the generated message to the user in a code block, ready to copy. Do **n
 - The command outputs a suggested message only; it does not perform the commit
 - `.gitignore` is the primary source for "should not commit"; the command blocklist is minimal (secrets only)
 - When in doubt, prefer a shorter, more goal-focused message over a detailed one
+
+## Git Compatibility
+
+This project's Git version does not support the `--trailer` flag. A wrapper script is available at `scripts/git-commit.cmd` that strips `--trailer` arguments before forwarding to `git commit`.
+
+- **ALWAYS** use `scripts\git-commit.cmd` instead of `git commit` when committing from the sandbox
+- The wrapper accepts all standard `git commit` arguments (e.g. `-m`, `-a`, `--amend`)
+- Example: `scripts\git-commit.cmd -m "feat(parser): add new node type"`
