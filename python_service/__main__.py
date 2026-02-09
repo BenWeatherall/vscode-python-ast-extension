@@ -11,7 +11,12 @@ from python_service.server import ASTParseServer
 
 
 def main() -> None:
-    """Start the AST parse service. Reads requests from stdin, writes to stdout."""
+    """Start the AST parse service.
+
+    Initializes the parser and server, sets up signal handlers for
+    graceful shutdown (SIGTERM, SIGINT), and starts the stdio server loop.
+    Reads JSON-RPC-like parse requests from stdin and writes responses to stdout.
+    """
     parser = ReteConverter()
     server = ASTParseServer(parser)
 

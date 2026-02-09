@@ -18,27 +18,16 @@ Optimize for large ASTs (100+ nodes). Parser: fast ID generation. React: memo, u
 
 1. `test_parse_large_file` – 100+ nodes, < 1s
 2. `test_render_large_graph` – 100+ nodes, < 2s
-3. `test_worker_support` – If implemented
-4. `test_debouncing_behavior` – Debounce correct
-5. `test_memory_usage` – No leaks
-6. `test_ui_responsiveness` – UI responsive during parse
 
 ## Implementation Order
 
 1. Profile parser, optimize ID generation
 2. React.memo on node components
-3. useMemo for expensive computations
-4. Debounce graph updates in App
-5. Configure Rete for performance
-6. Add worker if needed (optional)
+3. Debounce graph updates in App
+4. Configure Rete for performance (if needed)
 
 ## Validation Steps
 
 - Parse 100+ nodes < 1s
 - Render 100+ nodes < 2s
 - UI responsive
-- No memory leaks
-
-## Documentation Updates
-
-Performance notes in code if needed.

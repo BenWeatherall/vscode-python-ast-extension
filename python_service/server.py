@@ -35,28 +35,47 @@ class ASTParseServer:
             graph = self.parser.parse_to_rete(source_code)
             return {"result": graph.model_dump()}
         except SyntaxError as e:
+            # Format user-friendly syntax error message with location
+            error_msg = "Invalid Python syntax"
+            if e.msg:
+                error_msg = f"Syntax error: {e.msg}"
+            if e.lineno is not None:
+                location = f" at line {e.lineno}"
+                if e.offset is not None:
+                    location += f", column {e.offset}"
+                error_msg += location
+            elif str(e):
+                error_msg = f"Syntax error: {str(e)}"
             return {
                 "error": {
                     "code": self.PARSE_ERROR_CODE,
-                    "message": str(e) or "Invalid Python syntax",
+                    "message": error_msg,
                 }
             }
         except Exception as e:
+            # Format user-friendly internal error message
+            error_msg = "An internal error occurred while parsing your code"
+            if str(e):
+                error_msg = f"Parse error: {str(e)}"
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": str(e) or "Internal error",
+                    "message": error_msg,
                 }
             }
 
     def _parse_request(self, line: str) -> Dict[str, Any] | None:
         """Parse JSON request and extract source code.
 
+        Validates the request format, extracts the sourceCode parameter
+        (supports both camelCase and snake_case), and calls handle_parse_request.
+
         Args:
-            line: JSON string from stdin.
+            line: JSON string from stdin containing the parse request.
 
         Returns:
-            Response dict or None if request invalid.
+            Response dict with 'result' (graph) or 'error' (code, message),
+            or None if request is invalid.
         """
         try:
             data = json.loads(line)
@@ -64,7 +83,7 @@ class ASTParseServer:
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": f"Invalid JSON: {e}",
+                    "message": f"Invalid request format: {e.msg if hasattr(e, 'msg') else str(e)}",
                 }
             }
 
@@ -72,7 +91,7 @@ class ASTParseServer:
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": "Request must be a JSON object",
+                    "message": "Invalid request: expected a JSON object",
                 }
             }
 
@@ -80,7 +99,10 @@ class ASTParseServer:
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": f"Unknown method: {data.get('method', 'unknown')}",
+                    "message": (
+                        f"Unsupported request method: {data.get('method', 'unknown')}. "
+                        "Only 'parse' is supported."
+                    ),
                 }
             }
 
@@ -93,7 +115,10 @@ class ASTParseServer:
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": "Missing required parameter: sourceCode",
+                    "message": (
+                        "Missing required parameter: 'sourceCode' is required "
+                        "to parse Python code"
+                    ),
                 }
             }
 
@@ -101,14 +126,22 @@ class ASTParseServer:
             return {
                 "error": {
                     "code": self.INTERNAL_ERROR_CODE,
-                    "message": "sourceCode must be a string",
+                    "message": (
+                        "Invalid parameter type: 'sourceCode' must be a string "
+                        "containing Python code"
+                    ),
                 }
             }
 
         return self.handle_parse_request(source_code)
 
     def start_server(self) -> None:
-        """Start stdio server loop. Read requests, process, write responses."""
+        """Start stdio server loop.
+
+        Reads JSON-RPC-like requests from stdin, processes them via
+        handle_parse_request, and writes JSON responses to stdout.
+        Continues until stop_server() is called or stdin is closed.
+        """
         self._running = True
 
         for line in sys.stdin:
@@ -125,5 +158,9 @@ class ASTParseServer:
         self._running = False
 
     def stop_server(self) -> None:
-        """Stop the server gracefully."""
+        """Stop the server gracefully.
+
+        Sets the running flag to False, which causes the server loop
+        to exit after processing the current request (if any).
+        """
         self._running = False

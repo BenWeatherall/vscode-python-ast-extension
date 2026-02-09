@@ -38,13 +38,14 @@ export interface ReteGraph {
 }
 
 /** Message types for extension ↔ webview communication. */
-export type VSCodeMessageType = "updateGraph" | "error" | "navigateToSource";
+export type VSCodeMessageType = "updateGraph" | "error" | "navigateToSource" | "loading" | "retry";
 
 /** Message for extension ↔ webview communication. */
 export interface VSCodeMessage {
   type: VSCodeMessageType;
   graph?: ReteGraph;
   error?: string;
+  message?: string;
   nodeId?: string;
   lineno?: number;
   colOffset?: number;

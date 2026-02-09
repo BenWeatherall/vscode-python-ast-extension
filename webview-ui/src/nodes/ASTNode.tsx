@@ -25,6 +25,11 @@ export interface ASTNodeProps {
   bodyContent?: React.ReactNode;
 }
 
+/**
+ * Sorts entries by their index property (for consistent port ordering).
+ * @param entries - Array of [key, value] tuples with optional index.
+ * @returns Sorted array of entries.
+ */
 function sortByIndex<T extends { index?: number }>(
   entries: [string, T | undefined][]
 ): [string, T | undefined][] {
@@ -33,8 +38,14 @@ function sortByIndex<T extends { index?: number }>(
   );
 }
 
-/** Base node component with header and body. */
-export function ASTNode({ data, emit, bodyContent }: ASTNodeProps): React.ReactElement {
+/**
+ * Base node component with header and body.
+ * Renders a Rete.js node with title, optional body content, input/output sockets,
+ * and controls. Displays line number and column offset if available.
+ * @param props - Component props including node data, emit function, and optional body content.
+ * @returns React element rendering the AST node.
+ */
+export const ASTNode = React.memo(function ASTNode({ data, emit, bodyContent }: ASTNodeProps): React.ReactElement {
   const nodeData = data.data ?? { astType: data.label };
   const loc =
     nodeData.lineno != null
@@ -114,4 +125,4 @@ export function ASTNode({ data, emit, bodyContent }: ASTNodeProps): React.ReactE
       )}
     </Presets.classic.NodeStyles>
   );
-}
+});

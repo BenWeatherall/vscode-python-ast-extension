@@ -1,0 +1,25 @@
+/** Global styles – Tailwind + VS Code theme variables. */
+@import "./components/NodeStyles.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vscode-editor-background: #1e1e1e;
+  --vscode-editor-foreground: #d4d4d4;
+  --vscode-editorWidget-background: #252526;
+  --vscode-panel-border: #3c3c3c;
+  --vscode-list-activeSelectionBackground: #094771;
+  --vscode-list-hoverBackground: #2a2d2e;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+  font-family: var(--vscode-font-family, ui-monospace, monospace);
+  font-size: 13px;
+}

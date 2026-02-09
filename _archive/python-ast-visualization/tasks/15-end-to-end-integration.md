@@ -52,48 +52,9 @@ This task connects all components and verifies the full end-to-end workflow from
 # Testing Needed
 
 1. Write integration test: `tests/integration/e2e/workflow.test.ts::test_file_to_parse_to_visualize`
-   - Create test Python file
-   - Trigger visualization command
-   - Verify Python service parses file
-   - Verify graph sent to webview
-   - Verify graph rendered in webview
-
 2. Write integration test: `tests/integration/e2e/navigation.test.ts::test_node_click_to_navigation`
-   - Render graph with known line numbers
-   - Simulate node click
-   - Verify editor navigates to correct line
-   - Verify code highlighted (if supported)
-
 3. Write integration test: `tests/integration/e2e/auto-refresh.test.ts::test_file_save_to_auto_refresh`
-   - Open visualization
-   - Modify source file
-   - Save file
-   - Verify graph automatically updated
-   - Verify new nodes appear
-
 4. Write integration test: `tests/integration/e2e/error-handling.test.ts::test_error_propagation_end_to_end`
-   - Provide invalid Python code
-   - Verify error propagated through all layers
-   - Verify user sees error message in webview
-   - Test service failure scenario
-
 5. Write integration test: `tests/integration/e2e/communication.test.ts::test_message_round_trip`
-   - Send message from extension to webview
-   - Verify webview receives message
-   - Send message from webview to extension
-   - Verify extension receives message
-
 6. Write integration test: `tests/integration/e2e/performance.test.ts::test_large_file_handling`
-   - Parse large Python file (100+ nodes)
-   - Verify parse completes in < 1 second
-   - Verify graph renders in < 2 seconds
-   - Verify UI remains responsive
-
-7. Manual validation: End-to-end testing:
-   - Install extension
-   - Open Python file
-   - Trigger visualization
-   - Verify graph displays
-   - Click nodes and verify navigation
-   - Modify file and verify auto-refresh
-   - Test error scenarios
+7. Manual validation: End-to-end testing

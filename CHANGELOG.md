@@ -3,6 +3,27 @@
 ## [Unreleased]
 
 ### Added
+- Code documentation (Google-style docstrings for Python, JSDoc for TypeScript)
+  - Plan: [20-code-documentation](_archive/python-ast-visualization/plans/tasks/20-code-documentation.md)
+  - Task: [20-code-documentation](_archive/python-ast-visualization/tasks/20-code-documentation.md)
+- README.md with executive summary, installation instructions, and usage documentation
+  - Plan: [19-readme](_archive/python-ast-visualization/plans/tasks/19-readme.md)
+  - Task: [19-readme](_archive/python-ast-visualization/tasks/19-readme.md)
+- Error handling and user feedback (user-friendly error messages, loading indicators, error recovery suggestions, output channel logging)
+  - Plan: [18-error-handling-and-user-feedback](_archive/python-ast-visualization/plans/tasks/18-error-handling-and-user-feedback.md)
+  - Task: [18-error-handling-and-user-feedback](_archive/python-ast-visualization/tasks/18-error-handling-and-user-feedback.md)
+- Performance optimization (React.memo on nodes, graph update debounce 150ms, parser ID format)
+  - Plan: [17-performance-optimization](_archive/python-ast-visualization/plans/tasks/17-performance-optimization.md)
+  - Task: [17-performance-optimization](_archive/python-ast-visualization/tasks/17-performance-optimization.md)
+- Auto-refresh on file save (workspace.onDidSaveTextDocument, debounce 400ms, panel registry)
+  - Plan: [16-auto-refresh-on-file-save](_archive/python-ast-visualization/plans/tasks/16-auto-refresh-on-file-save.md)
+  - Task: [16-auto-refresh-on-file-save](_archive/python-ast-visualization/tasks/16-auto-refresh-on-file-save.md)
+- End-to-end integration tests (workflow, navigation, error propagation, communication, performance)
+  - Plan: [15-end-to-end-integration](_archive/python-ast-visualization/plans/tasks/15-end-to-end-integration.md)
+  - Task: [15-end-to-end-integration](_archive/python-ast-visualization/tasks/15-end-to-end-integration.md)
+- Styling and theme integration (Tailwind, VS Code CSS vars, dark mode, node styles)
+  - Plan: [14-styling-and-theme-integration](_archive/python-ast-visualization/plans/tasks/14-styling-and-theme-integration.md)
+  - Task: [14-styling-and-theme-integration](_archive/python-ast-visualization/tasks/14-styling-and-theme-integration.md)
 - Rete.js editor setup (ReteASTEditor: initialize, loadGraph, clearGraph, getGraph, onNodeClick)
   - Plan: [11-rete-editor-setup](_archive/python-ast-visualization/plans/tasks/11-rete-editor-setup.md)
   - Task: [11-rete-editor-setup](_archive/python-ast-visualization/tasks/11-rete-editor-setup.md)

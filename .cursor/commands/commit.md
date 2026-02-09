@@ -19,7 +19,7 @@ You MUST follow these phases in order. Do not generate a commit message until Ph
 - [ ] Read `.gitignore` for project ignore patterns
 
 **Phase 2: Safety Check**
-- [ ] Checked each uncommitted file against `.gitignore` (via `git check-ignore -v <path>`)
+- [ ] Sanity-checked staged files that will be committed and flagged anything that looks like it should normally be ignored (artifacts, caches, logs, env/secrets, etc.)
 - [ ] Checked each uncommitted file against command blocklist
 - [ ] Confirmed no unsafe files; or stopped and reported if any found
 
@@ -51,9 +51,9 @@ Build a complete list of all uncommitted files (staged and unstaged). Include th
 
 **Purpose**: `.gitignore` handles base patterns; this step is a safety net for files staged despite being ignored, or matching risky patterns not in `.gitignore`.
 
-### Step 2.1: Check Against `.gitignore`
+### Step 2.1: Check Against Expected Ignore Patterns (no `.gitignore` commands)
 
-For each uncommitted file, run `git check-ignore -v <path>`. If the command returns success (exit 0), the file is ignored and **must not be committed**. Flag it.
+Look at the list of staged files that will be included in the commit and sanity-check them. If any look like something that would normally be ignored (build artifacts, caches, logs, secrets, environment files, etc.), flag them as suspicious based on their path, name, or content. Do **not** run `git check-ignore`; `.gitignore` is already doing its job during staging.
 
 ### Step 2.2: Check Against Command Blocklist
 
@@ -63,16 +63,16 @@ Additional patterns the command enforces (secrets/credentials):
 - `*.key`, `*.pem`
 - `secrets.*` (e.g. `secrets.json`)
 
-If any uncommitted file matches these patterns, flag it.
+If any staged file matches these patterns, flag it.
 
 ### Step 2.3: Report and Stop if Needed
 
 If any files are flagged:
 
 1. Output a clear list of flagged files with their paths
-2. Indicate why each was flagged (`.gitignore` match or blocklist match)
-3. Instruct the user to unstage (`git restore --staged <path>`) or remove them before committing
-4. **Do not proceed to Phase 3 or 4.** Stop here.
+2. Indicate why each was flagged (e.g. looks like an artifact/cache/log/env file, or matches the secrets/blocklist patterns)
+3. Explicitly ask the user whether they intend to commit each flagged file or whether it should have been ignored (e.g. by `.gitignore`)
+4. **Pause here until the user responds.** Do not proceed to Phase 3 or 4 until the user confirms how to handle the flagged files. If the user decides a file should not be committed, instruct them to unstage (`git restore --staged <path>`) or remove it before re-running this command.
 
 ---
 

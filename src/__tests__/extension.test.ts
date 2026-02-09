@@ -11,6 +11,8 @@ import {
   mockPostMessage,
   mockShowTextDocument,
   triggerWebviewMessage,
+  mockOnDidSaveTextDocument,
+  triggerSaveDocument,
 } from "../__mocks__/vscodeMock";
 
 jest.mock("../pythonClient");
@@ -42,6 +44,7 @@ function createMockEditor(doc: {
 }
 
 beforeEach(() => {
+  deactivate();
   jest.clearAllMocks();
   MockPythonClient.mockImplementation(() => ({
     spawnService: jest.fn().mockResolvedValue(undefined),
@@ -266,6 +269,177 @@ describe("extension", () => {
       );
 
       expect(panel.onDidDispose).toHaveBeenCalled();
+    });
+  });
+
+  describe("test_auto_refresh", () => {
+    it("registers onDidSaveTextDocument on activate", () => {
+      const context = createMockContext();
+      activate(context);
+      expect(mockOnDidSaveTextDocument).toHaveBeenCalled();
+    });
+
+    it("parse triggered when Python file saved and panel exists", async () => {
+      const context = createMockContext();
+      const mockParseAST = jest.fn().mockResolvedValue({ nodes: [], connections: [] });
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: mockParseAST,
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const mockClient = new MockPythonClient();
+      const docUri = vscode.Uri.file("/test/file.py");
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+
+      mockParseAST.mockClear();
+      triggerSaveDocument({
+        uri: docUri,
+        getText: () => "x = 2",
+        languageId: "python",
+      });
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      expect(mockParseAST).toHaveBeenCalledWith("x = 2");
+    });
+
+    it("webview receives updateGraph when file saved", async () => {
+      const context = createMockContext();
+      const newGraph = { nodes: [{ id: "n1", label: "X", inputs: {}, outputs: {}, data: { astType: "Assign" } }], connections: [] };
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: jest.fn().mockResolvedValue(newGraph),
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const mockClient = new MockPythonClient();
+      const docUri = vscode.Uri.file("/test/file.py");
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+
+      mockPostMessage.mockClear();
+      triggerSaveDocument({
+        uri: docUri,
+        getText: () => "x = 2",
+        languageId: "python",
+      });
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      expect(mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: "updateGraph", graph: newGraph })
+      );
+    });
+
+    it("no errors when save with no panel open", async () => {
+      const context = createMockContext();
+      const mockParseAST = jest.fn().mockResolvedValue({ nodes: [], connections: [] });
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: mockParseAST,
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const docUri = vscode.Uri.file("/test/file.py");
+
+      triggerSaveDocument({
+        uri: docUri,
+        getText: () => "x = 1",
+        languageId: "python",
+      });
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      expect(mockParseAST).toHaveBeenCalledWith("x = 1");
+    });
+
+    it("debounces rapid saves to single parse", async () => {
+      const context = createMockContext();
+      const mockParseAST = jest.fn().mockResolvedValue({ nodes: [], connections: [] });
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: mockParseAST,
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const mockClient = new MockPythonClient();
+      const docUri = vscode.Uri.file("/test/file.py");
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+
+      mockParseAST.mockClear();
+      triggerSaveDocument({ uri: docUri, getText: () => "v1", languageId: "python" });
+      triggerSaveDocument({ uri: docUri, getText: () => "v2", languageId: "python" });
+      triggerSaveDocument({ uri: docUri, getText: () => "v3", languageId: "python" });
+
+      await new Promise((r) => setTimeout(r, 50));
+      expect(mockParseAST).not.toHaveBeenCalled();
+
+      await new Promise((r) => setTimeout(r, 400));
+      expect(mockParseAST).toHaveBeenCalledTimes(1);
+      expect(mockParseAST).toHaveBeenCalledWith("v3");
+    });
+
+    it("all panels receive update when multiple panels for same document", async () => {
+      const context = createMockContext();
+      const newGraph = { nodes: [], connections: [] };
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: jest.fn().mockResolvedValue(newGraph),
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const mockClient = new MockPythonClient();
+      const docUri = vscode.Uri.file("/test/file.py");
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+
+      mockPostMessage.mockClear();
+      triggerSaveDocument({
+        uri: docUri,
+        getText: () => "x = 1",
+        languageId: "python",
+      });
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      expect(mockPostMessage).toHaveBeenCalledTimes(2);
+    });
+
+    it("ignores non-Python file saves", async () => {
+      const context = createMockContext();
+      const mockParseAST = jest.fn().mockResolvedValue({ nodes: [], connections: [] });
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: mockParseAST,
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+      const mockClient = new MockPythonClient();
+      const docUri = vscode.Uri.file("/test/file.py");
+      createVisualizationPanel(context, mockClient, docUri, { nodes: [], connections: [] });
+
+      mockParseAST.mockClear();
+      triggerSaveDocument({
+        uri: vscode.Uri.file("/test/file.js"),
+        getText: () => "const x = 1",
+        languageId: "javascript",
+      });
+
+      await new Promise((r) => setTimeout(r, 400));
+
+      expect(mockParseAST).not.toHaveBeenCalled();
     });
   });
 });

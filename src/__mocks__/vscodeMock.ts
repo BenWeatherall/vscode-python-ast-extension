@@ -24,11 +24,18 @@ export const mockShowTextDocument = jest.fn().mockResolvedValue({
   selection: {},
 });
 
+export const mockCreateOutputChannel = jest.fn(() => ({
+  appendLine: jest.fn(),
+  show: jest.fn(),
+  dispose: jest.fn(),
+}));
+
 export const window = {
   activeTextEditor: undefined as unknown,
   showInformationMessage: jest.fn(),
   showErrorMessage: jest.fn(),
   showTextDocument: mockShowTextDocument,
+  createOutputChannel: mockCreateOutputChannel,
   createWebviewPanel: jest.fn(() => ({
     webview: {
       html: "",
@@ -42,7 +49,10 @@ export const window = {
 };
 
 export const Uri = {
-  file: jest.fn((p: string) => ({ path: p, fsPath: p })),
+  file: jest.fn((p: string) => {
+    const u = { path: p, fsPath: p };
+    return { ...u, toString: () => `file://${p.startsWith("/") ? "" : "/"}${p}` };
+  }),
   joinPath: jest.fn((base: { path: string }, ...segments: string[]) => {
     const joined = [base.path, ...segments].join("/").replace(/\/+/g, "/");
     return { path: joined, fsPath: joined };
@@ -62,3 +72,21 @@ export const Selection = jest.fn((anchor: unknown, active: unknown) => ({
   active,
 }));
 export const TextEditorRevealType = { InCenter: 1 };
+
+let saveDocumentHandler: ((doc: { uri: { toString: () => string; scheme?: string }; getText: () => string; languageId: string }) => void) | null = null;
+export const mockOnDidSaveTextDocument = jest.fn((cb: (doc: unknown) => void) => {
+  saveDocumentHandler = cb as typeof saveDocumentHandler;
+  return mockDisposable;
+});
+export const triggerSaveDocument = (doc: { uri: { path?: string; toString?: () => string }; getText: () => string; languageId: string }) => {
+  const uri = doc.uri.toString ? doc.uri.toString() : (doc.uri as { path: string }).path;
+  saveDocumentHandler?.({
+    uri: { toString: () => uri, scheme: "file" },
+    getText: doc.getText,
+    languageId: doc.languageId,
+  });
+};
+
+export const workspace = {
+  onDidSaveTextDocument: mockOnDidSaveTextDocument,
+};

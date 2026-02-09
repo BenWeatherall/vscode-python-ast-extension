@@ -26,7 +26,7 @@
     "compile": "tsc -p .",
     "watch": "tsc -p . -w",
     "build": "npm run compile && npm run bundle-webview",
-    "bundle-webview": "esbuild webview-ui/src/index.tsx --bundle --outfile=out/media/webview.js --format=iife --global-name=webviewBundle",
+    "bundle-webview": "esbuild webview-ui/src/index.tsx --bundle --outfile=out/media/webview.js --format=iife --global-name=webviewBundle && npx tailwindcss -i webview-ui/src/index.css -o out/media/webview.css -c webview-ui/tailwind.config.js --minify",
     "test": "jest",
     "test:python": "python -m pytest tests/ -v"
   },

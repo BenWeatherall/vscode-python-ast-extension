@@ -39,7 +39,12 @@ export class ReteASTEditor implements ASTEditor {
   private nodeClickHandlers: NodeClickHandler[] = [];
   private nodeDataMap = new Map<string, NodeData>();
 
-  /** Initializes the editor and mounts it to the container. */
+  /**
+   * Initializes the editor and mounts it to the container.
+   * Sets up Rete.js editor with React rendering, area plugin, and connection plugin.
+   * @param container - HTML element to mount the editor into.
+   * @throws Error if initialization fails.
+   */
   async initialize(container: HTMLElement): Promise<void> {
     const editor = new NodeEditor<Schemes>();
     const area = new AreaPlugin<Schemes, AreaExtra>(container);
@@ -59,7 +64,7 @@ export class ReteASTEditor implements ASTEditor {
                 self.nodeClickHandlers.forEach((h) => h(props.data.id, data));
               };
               return (
-                <div onClick={handleClick} data-testid="ast-node" style={{ cursor: "pointer" }}>
+                <div onClick={handleClick} data-testid="ast-node" className="ast-node-wrapper" style={{ cursor: "pointer" }}>
                   <Component {...props} />
                 </div>
               );
@@ -83,7 +88,13 @@ export class ReteASTEditor implements ASTEditor {
     this.area = area;
   }
 
-  /** Loads a graph into the editor. */
+  /**
+   * Loads a graph into the editor.
+   * Clears existing graph, creates nodes and connections from the graph data,
+   * and zooms to fit all nodes.
+   * @param graph - Rete graph structure with nodes and connections.
+   * @throws Error if editor is not initialized.
+   */
   async loadGraph(graph: ReteGraph): Promise<void> {
     if (!this.editor || !this.area) {
       throw new Error("Editor not initialized");
@@ -130,14 +141,21 @@ export class ReteASTEditor implements ASTEditor {
     }
   }
 
-  /** Clears all nodes and connections. */
+  /**
+   * Clears all nodes and connections from the editor.
+   * Also clears the internal node data map.
+   */
   async clearGraph(): Promise<void> {
     if (!this.editor) return;
     await this.editor.clear();
     this.nodeDataMap.clear();
   }
 
-  /** Returns the current graph structure. */
+  /**
+   * Returns the current graph structure from the editor.
+   * Includes nodes with their positions and all connections.
+   * @returns Rete graph structure with nodes and connections.
+   */
   getGraph(): ReteGraph {
     if (!this.editor) {
       return { nodes: [], connections: [] };
@@ -170,7 +188,11 @@ export class ReteASTEditor implements ASTEditor {
     return { nodes, connections };
   }
 
-  /** Registers a handler for node click events. */
+  /**
+   * Registers a handler for node click events.
+   * Multiple handlers can be registered; all will be called on node click.
+   * @param handler - Function to call when a node is clicked.
+   */
   onNodeClick(handler: NodeClickHandler): void {
     this.nodeClickHandlers.push(handler);
   }
