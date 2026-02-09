@@ -6,9 +6,11 @@ import {
   createVisualizationPanel,
 } from "../extension";
 import { PythonClient } from "../pythonClient";
+import { resolveBinaryPath } from "../binaryResolver";
 import * as vscode from "vscode";
 import {
   mockPostMessage,
+  mockCreateOutputChannel,
   mockShowTextDocument,
   triggerWebviewMessage,
   mockOnDidSaveTextDocument,
@@ -16,12 +18,15 @@ import {
 } from "../__mocks__/vscodeMock";
 
 jest.mock("../pythonClient");
+jest.mock("../binaryResolver");
 
 const MockPythonClient = PythonClient as jest.MockedClass<typeof PythonClient>;
+const mockResolveBinaryPath = resolveBinaryPath as jest.MockedFunction<typeof resolveBinaryPath>;
 
-function createMockContext(): vscode.ExtensionContext {
+function createMockContext(extensionPath?: string): vscode.ExtensionContext {
   return {
     subscriptions: [],
+    extensionPath: extensionPath || "/mock/extension/path",
   } as unknown as vscode.ExtensionContext;
 }
 
@@ -46,6 +51,7 @@ function createMockEditor(doc: {
 beforeEach(() => {
   deactivate();
   jest.clearAllMocks();
+  mockResolveBinaryPath.mockReset();
   MockPythonClient.mockImplementation(() => ({
     spawnService: jest.fn().mockResolvedValue(undefined),
     parseAST: jest.fn().mockResolvedValue({ nodes: [], connections: [] }),
@@ -442,6 +448,147 @@ describe("extension", () => {
       await new Promise((r) => setTimeout(r, 400));
 
       expect(mockParseAST).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("extension activation with binary resolution", () => {
+    it("resolves binary path and passes to PythonClient", () => {
+      const extensionPath = "/path/to/extension";
+      const binaryPath = "/path/to/extension/bin/python_service-win-x64.exe";
+      const context = createMockContext(extensionPath);
+
+      mockResolveBinaryPath.mockReturnValue(binaryPath);
+
+      activate(context);
+
+      expect(mockResolveBinaryPath).toHaveBeenCalledWith(extensionPath);
+      expect(MockPythonClient).toHaveBeenCalledWith(binaryPath);
+    });
+
+    it("handles missing binary gracefully", () => {
+      const extensionPath = "/path/to/extension";
+      const context = createMockContext(extensionPath);
+      const mockOutputChannel = {
+        appendLine: jest.fn(),
+        show: jest.fn(),
+        dispose: jest.fn(),
+      };
+
+      mockResolveBinaryPath.mockReturnValue(null);
+      mockCreateOutputChannel.mockReturnValue(mockOutputChannel);
+
+      activate(context);
+
+      expect(mockResolveBinaryPath).toHaveBeenCalledWith(extensionPath);
+      expect(MockPythonClient).toHaveBeenCalledWith(null);
+      expect(mockOutputChannel.appendLine).toHaveBeenCalledWith(
+        expect.stringMatching(/warning.*binary.*not found|using system python/i)
+      );
+    });
+
+    it("handles unsupported platform gracefully", () => {
+      const extensionPath = "/path/to/extension";
+      const context = createMockContext(extensionPath);
+      const mockOutputChannel = {
+        appendLine: jest.fn(),
+        show: jest.fn(),
+        dispose: jest.fn(),
+      };
+
+      mockResolveBinaryPath.mockReturnValue(null);
+      mockCreateOutputChannel.mockReturnValue(mockOutputChannel);
+
+      activate(context);
+
+      expect(mockResolveBinaryPath).toHaveBeenCalledWith(extensionPath);
+      expect(MockPythonClient).toHaveBeenCalledWith(null);
+      expect(mockOutputChannel.appendLine).toHaveBeenCalledWith(
+        expect.stringMatching(/warning.*binary.*not found|using system python/i)
+      );
+      expect(context.subscriptions.length).toBeGreaterThan(0);
+    });
+
+    it("activation continues even if binary not found", () => {
+      const extensionPath = "/path/to/extension";
+      const context = createMockContext(extensionPath);
+
+      mockResolveBinaryPath.mockReturnValue(null);
+
+      expect(() => activate(context)).not.toThrow();
+
+      expect(mockResolveBinaryPath).toHaveBeenCalledWith(extensionPath);
+      expect(vscode.commands.registerCommand).toHaveBeenCalledWith(
+        "python-ast.visualize",
+        expect.any(Function)
+      );
+      expect(MockPythonClient).toHaveBeenCalled();
+    });
+
+    it("binary path passed through activation flow", async () => {
+      const extensionPath = "/path/to/extension";
+      const binaryPath = "/path/to/extension/bin/python_service-win-x64.exe";
+      const context = createMockContext(extensionPath);
+      const mockParseAST = jest.fn().mockResolvedValue({ nodes: [], connections: [] });
+
+      mockResolveBinaryPath.mockReturnValue(binaryPath);
+      MockPythonClient.mockImplementation(() => ({
+        spawnService: jest.fn().mockResolvedValue(undefined),
+        parseAST: mockParseAST,
+        stopService: jest.fn(),
+        isServiceRunning: jest.fn().mockReturnValue(true),
+      }) as unknown as PythonClient);
+
+      activate(context);
+
+      expect(MockPythonClient).toHaveBeenCalledWith(binaryPath);
+
+      const [, handler] = (vscode.commands.registerCommand as jest.Mock).mock.calls[0];
+      vscode.window.activeTextEditor = createMockEditor({
+        getText: () => "x = 1",
+        languageId: "python",
+      }) as vscode.TextEditor;
+
+      await handler();
+
+      expect(mockParseAST).toHaveBeenCalledWith("x = 1");
+    });
+
+    it("handles binary resolution errors gracefully", () => {
+      const extensionPath = "/path/to/extension";
+      const context = createMockContext(extensionPath);
+
+      mockResolveBinaryPath.mockImplementation(() => {
+        throw new Error("File system error");
+      });
+
+      expect(() => activate(context)).not.toThrow();
+
+      expect(mockResolveBinaryPath).toHaveBeenCalledWith(extensionPath);
+      expect(MockPythonClient).toHaveBeenCalled();
+    });
+
+    it("logs warning for development mode fallback", () => {
+      const extensionPath = "/path/to/extension";
+      const context = createMockContext(extensionPath);
+      const mockOutputChannel = {
+        appendLine: jest.fn(),
+        show: jest.fn(),
+        dispose: jest.fn(),
+      };
+
+      mockResolveBinaryPath.mockReturnValue(null);
+      mockCreateOutputChannel.mockReturnValue(mockOutputChannel);
+
+      activate(context);
+
+      const warningCalls = mockOutputChannel.appendLine.mock.calls.filter(
+        (call: unknown[]) => typeof call[0] === "string" &&
+        ((call[0] as string).toLowerCase().includes("warning") ||
+         (call[0] as string).toLowerCase().includes("binary") ||
+         (call[0] as string).toLowerCase().includes("system python"))
+      );
+
+      expect(warningCalls.length).toBeGreaterThan(0);
     });
   });
 });

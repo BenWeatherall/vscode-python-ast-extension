@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+- Extension integration tests for binary resolution during activation (7 TDD tests: resolve binary, missing binary, unsupported platform, activation continuity, flow-through, error handling, logging)
+  - Plan: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/plans/tasks/06-write-extension-integration-tests.md)
+  - Task: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/tasks/06-write-extension-integration-tests.md)
+
 ### Changed
 - PythonClient accepts optional `binaryPath` parameter; spawns binary directly when provided, falls back to `python -m python_service` otherwise
   - Plan: [05-modify-pythonclient](_archive/vscode-extension-packaging/plans/tasks/05-modify-pythonclient.md)
