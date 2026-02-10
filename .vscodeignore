@@ -2,6 +2,10 @@
 .venv/
 **/.venv/
 **/__pycache__/
+.mypy_cache/
+**/.mypy_cache/
+.ruff_cache/
+**/.ruff_cache/
 
 # Test files
 tests/
@@ -18,6 +22,7 @@ tests/
 # Build artifacts (keep out/)
 **/*.map
 .build/
+**/*.spec
 
 # Source files (keep only compiled)
 src/
@@ -41,8 +46,10 @@ tools/
 # Config files not needed at runtime
 tsconfig.json
 jest.config.ts
+jest.config.js
 tailwind.config.js
 pyproject.toml
 install.sh
 .gitignore
+pnpm-lock.yaml
 scripts/

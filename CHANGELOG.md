@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Added
+- VSIX packaging validation: verified package creation, contents inspection (runtime files included, dev artifacts excluded), size verification (14.16 MB, well within 100 MB limit), Node.js compatibility fixes (undici override, repository field)
+  - Plan: [12-test-vsix-packaging](_archive/vscode-extension-packaging/plans/tasks/12-test-vsix-packaging.md)
+  - Task: [12-test-vsix-packaging](_archive/vscode-extension-packaging/tasks/12-test-vsix-packaging.md)
 - `.vscodeignore` to exclude development artifacts from VSIX packaging while keeping runtime files (`out/`, `bin/`, `package.json`, `README.md`)
   - Plan: [10-create-vscodeignore](_archive/vscode-extension-packaging/plans/tasks/10-create-vscodeignore.md)
   - Task: [10-create-vscodeignore](_archive/vscode-extension-packaging/tasks/10-create-vscodeignore.md)
@@ -17,6 +20,10 @@
   - Task: [06-write-extension-integration-tests](_archive/vscode-extension-packaging/tasks/06-write-extension-integration-tests.md)
 
 ### Changed
+- `.vscodeignore` updated to exclude cache directories (`.mypy_cache/`, `.ruff_cache/`), PyInstaller spec files (`*.spec`), pnpm lock file, and Jest config
+  - Related to task 12 VSIX packaging validation
+- `package.json` updated with pnpm undici override (6.23.0 for Node 18.16.0 compatibility) and repository field for VSIX packaging
+  - Related to task 12 VSIX packaging validation
 - Extension activation resolves binary path and injects into PythonClient; logs warning and falls back to system Python when binary not found
   - Plan: [07-modify-extension-activation](_archive/vscode-extension-packaging/plans/tasks/07-modify-extension-activation.md)
   - Task: [07-modify-extension-activation](_archive/vscode-extension-packaging/tasks/07-modify-extension-activation.md)
