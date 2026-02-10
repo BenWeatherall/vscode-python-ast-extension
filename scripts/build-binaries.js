@@ -102,9 +102,24 @@ function buildBinary() {
     `Platform: ${platform} (${plat.name}), Architecture: ${arch} (${archName})`,
   );
   console.log(`Output directory: ${binDir}`);
-  console.log(`Command: pyinstaller ${args.join(" ")}`);
 
-  const proc = spawn("pyinstaller", args, {
+  // Detect PyInstaller executable (prefer virtual environment)
+  let pyinstallerCmd = "pyinstaller";
+  const venvPyInstaller =
+    platform === "win32"
+      ? path.join(process.cwd(), ".venv", "Scripts", "pyinstaller.exe")
+      : path.join(process.cwd(), ".venv", "bin", "pyinstaller");
+
+  if (fs.existsSync(venvPyInstaller)) {
+    pyinstallerCmd = venvPyInstaller;
+    console.log(`Using virtual environment PyInstaller: ${pyinstallerCmd}`);
+  } else {
+    console.log(`Using system PyInstaller: ${pyinstallerCmd}`);
+  }
+
+  console.log(`Command: ${pyinstallerCmd} ${args.join(" ")}`);
+
+  const proc = spawn(pyinstallerCmd, args, {
     stdio: "inherit",
     shell: platform === "win32",
     cwd: process.cwd(),

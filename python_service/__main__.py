@@ -33,3 +33,7 @@ def main() -> None:
     except KeyboardInterrupt:
         server.stop_server()
         sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

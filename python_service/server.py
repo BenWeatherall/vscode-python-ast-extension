@@ -143,19 +143,8 @@ class ASTParseServer:
         Continues until stop_server() is called or stdin is closed.
         """
         self._running = True
-        
-        # DEBUG
-        import os
-        debug = os.environ.get("DEBUG_SERVICE")
-        if debug:
-            sys.stderr.write("DEBUG: Server starting\n")
-            sys.stderr.flush()
 
         for line in sys.stdin:
-            if debug:
-                sys.stderr.write(f"DEBUG: Received line: {repr(line)}\n")
-                sys.stderr.flush()
-                
             if not self._running:
                 break
             line = line.strip()
@@ -163,14 +152,8 @@ class ASTParseServer:
                 continue
             response = self._parse_request(line)
             if response is not None:
-                if debug:
-                    sys.stderr.write(f"DEBUG: Sending response\n")
-                    sys.stderr.flush()
                 sys.stdout.write(json.dumps(response) + "\n")
                 sys.stdout.flush()
-                if debug:
-                    sys.stderr.write(f"DEBUG: Response sent\n")
-                    sys.stderr.flush()
 
         self._running = False
 

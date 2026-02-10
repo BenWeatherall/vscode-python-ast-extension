@@ -32,6 +32,7 @@ build/
 *.egg-info/
 .eggs/
 out/
+*.spec
 
 # Python tooling
 .pytest_cache/
