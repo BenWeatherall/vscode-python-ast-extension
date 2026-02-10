@@ -3,6 +3,9 @@
 ## [Unreleased]
 
 ### Added
+- Integration tests for binary execution flow: extension activation with binary resolution, binary execution and JSON-RPC communication, protocol compatibility between binary and Python command, fallback behavior when binary unavailable, platform-specific binary resolution, graph data validation (17 tests)
+  - Plan: [13-integration-testing](_archive/vscode-extension-packaging/plans/tasks/13-integration-testing.md)
+  - Task: [13-integration-testing](_archive/vscode-extension-packaging/tasks/13-integration-testing.md)
 - VSIX packaging validation: verified package creation, contents inspection (runtime files included, dev artifacts excluded), size verification (14.16 MB, well within 100 MB limit), Node.js compatibility fixes (undici override, repository field)
   - Plan: [12-test-vsix-packaging](_archive/vscode-extension-packaging/plans/tasks/12-test-vsix-packaging.md)
   - Task: [12-test-vsix-packaging](_archive/vscode-extension-packaging/tasks/12-test-vsix-packaging.md)
