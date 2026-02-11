@@ -28,14 +28,17 @@
     ]
   },
   "scripts": {
-    "compile": "tsc -p .",
-    "watch": "tsc -p . -w",
     "build": "npm run compile && npm run bundle-webview",
-    "bundle-webview": "esbuild webview-ui/src/index.tsx --bundle --outfile=out/media/webview.js --format=iife --global-name=webviewBundle && npx tailwindcss -i webview-ui/src/index.css -o out/media/webview.css -c webview-ui/tailwind.config.js --minify",
+    "build:clean": "npm run clean && npm run build",
     "build:python-binaries": "node scripts/build-binaries.js",
-    "vscode:package": "vsce package",
+    "bundle-webview": "esbuild webview-ui/src/index.tsx --bundle --outfile=out/media/webview.js --format=iife --global-name=webviewBundle && npx tailwindcss -i webview-ui/src/index.css -o out/media/webview.css -c webview-ui/tailwind.config.js --minify",
+    "clean": "rimraf out",
+    "compile": "tsc -p .",
     "test": "jest",
-    "test:python": "python -m pytest tests/ -v"
+    "test:python": "python -m pytest tests/ -v",
+    "vscode:package": "vsce package --no-dependencies",
+    "vscode:prepublish": "npm run build:clean",
+    "watch": "tsc -p . -w"
   },
   "dependencies": {
     "@types/vscode": "^1.80.0",
@@ -60,6 +63,7 @@
     "@vscode/vsce": "^3.7.1",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^30.2.0",
+    "rimraf": "^5.0.0",
     "ts-jest": "^29.0.0",
     "typescript": "^5.0.0"
   },

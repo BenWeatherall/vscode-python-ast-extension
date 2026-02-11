@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+### Fixed
+- Fixed: Extension fails with exit code 9009 when installed from VSIX due to stale compiled artifacts in package
+  - Added automated clean builds before packaging via `vscode:prepublish` lifecycle hook
+  - Plan: [01-add-build-scripts-and-dependency](_archive/fix-binary-execution-failure-9009/plans/tasks/01-add-build-scripts-and-dependency.md)
+  - Task: [01-add-build-scripts-and-dependency](_archive/fix-binary-execution-failure-9009/tasks/01-add-build-scripts-and-dependency.md)
+
 ### Added
 - Integration tests for binary execution flow: extension activation with binary resolution, binary execution and JSON-RPC communication, protocol compatibility between binary and Python command, fallback behavior when binary unavailable, platform-specific binary resolution, graph data validation (17 tests)
   - Plan: [13-integration-testing](_archive/vscode-extension-packaging/plans/tasks/13-integration-testing.md)
